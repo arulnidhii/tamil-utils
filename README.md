@@ -10,6 +10,8 @@ print(tokens(s))                        # ['இது', 'ஒரு', 'சோத�
 print(remove_stopwords(tokens(s)))      # ['சோதனை']
 print(graphemes("👩🏽‍💻"))               # ['👩🏽‍💻']
 
+```
+
 ## Installation
 pip install tamil-utils
 # Windows CLI (module form avoids PATH issues)
