@@ -14,8 +14,9 @@ print(graphemes("👩🏽‍💻"))               # ['👩🏽‍💻']
 
 ## Installation
 pip install tamil-utils
-# Windows CLI (module form avoids PATH issues)
+# Windows CLI (module form)
 python -m tamil_utils.cli tokens "இது ஒரு சோதனை"
 
-[![PyPI version](https://img.shields.io/pypi/v/tamil-utils)](https://pypi.org/project/tamil-utils/)
-![PyPI - Downloads](https://img.shields.io/pypi/dm/tamil-utils)
+[![PyPI](https://img.shields.io/pypi/v/tamil-utils)](https://pypi.org/project/tamil-utils/)
+[![CI](https://github.com/arulnidhii/tamil-utils/actions/workflows/ci.yml/badge.svg)](https://github.com/arulnidhii/tamil-utils/actions)
+
