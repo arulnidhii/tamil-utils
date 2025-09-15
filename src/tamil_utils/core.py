@@ -2,7 +2,7 @@ import unicodedata
 import regex as re
 
 # Zero-width characters: ZWSP, ZWNJ, ZWJ, WJ
-_ZW = dict.fromkeys(map(ord, ["\u200B", "\u200C", "\u200D", "\u2060"]), None)
+_ZW = dict.fromkeys(map(ord, ["\u200B"]), None)
 
 # Tamil-aware word pattern; keeps Tamil words intact; also matches Latin words & digits
 _WORD_RE = re.compile(r"(?:\p{Tamil}+|[A-Za-z]+|\d+)", re.UNICODE)
