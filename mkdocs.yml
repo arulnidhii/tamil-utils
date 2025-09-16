@@ -1,0 +1,8 @@
+site_name: tamil-utils
+repo_url: https://github.com/arulnidhii/tamil-utils
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Usage: usage.md
+  - API: api.md

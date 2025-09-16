@@ -47,7 +47,7 @@ def graphemes(text: str):
     """Return Unicode grapheme clusters (handles combining marks & emoji)."""
     return re.findall(r"\X", normalize(text))
 
-# -------------------- New in v0.0.2 --------------------
+# -------------------- v0.0.2: Sentences & Numerals --------------------
 
 # Sentence splitter: split on . ! ? … । or newlines; keep punctuation with the sentence
 _SENT_SPLIT_RE = re.compile(r"(?<=[.!?…।])\s+|\n+")
@@ -73,3 +73,106 @@ def to_arabic_numerals(text: str) -> str:
 def to_tamil_numerals(text: str) -> str:
     """Convert ASCII digits to Tamil digits."""
     return normalize(text).translate(_AR_TO_TA)
+
+# -------------------- v0.1: Script detection --------------------
+
+_TAMIL_RE = re.compile(r"\p{Tamil}", re.UNICODE)
+_LATIN_RE = re.compile(r"\p{Latin}", re.UNICODE)
+_DIGIT_RE = re.compile(r"\p{Nd}", re.UNICODE)
+
+def script_of(text: str) -> str:
+    """Return 'Tamil', 'Latin', 'Mixed', or 'Other' for a string."""
+    s = normalize(text)
+    has_ta = bool(_TAMIL_RE.search(s))
+    has_la = bool(_LATIN_RE.search(s))
+    has_dg = bool(_DIGIT_RE.search(s))
+    kinds = sum([has_ta, has_la, has_dg])
+    if kinds >= 2:
+        return "Mixed"
+    if has_ta:
+        return "Tamil"
+    if has_la:
+        return "Latin"
+    return "Other"
+
+def token_scripts(tok):
+    """Return [(token, script_tag), ...]."""
+    return [(t, script_of(t)) for t in tok]
+
+# -------------------- v0.1: Transliteration (Tamil -> ISO 15919 lite) --------------------
+
+# Independent vowels
+_VOW_INDEP = {
+    "அ":"a","ஆ":"ā","இ":"i","ஈ":"ī","உ":"u","ஊ":"ū",
+    "எ":"e","ஏ":"ē","ஐ":"ai","ஒ":"o","ஓ":"ō","ஔ":"au",
+}
+# Vowel signs
+_VOW_SIGNS = {
+    "ா":"ā","ி":"i","ீ":"ī","ு":"u","ூ":"ū",
+    "ெ":"e","ே":"ē","ை":"ai","ொ":"o","ோ":"ō","ௌ":"au",
+}
+# Consonants (basic set)
+_CONS = {
+    "க":"k","ங":"ṅ","ச":"c","ஞ":"ñ","ட":"ṭ","ண":"ṇ","த":"t","ந":"n",
+    "ப":"p","ம":"m","ய":"y","ர":"r","ல":"l","வ":"v",
+    "ழ":"ḻ","ள":"ḷ","ற":"ṟ","ன":"ṉ",
+    "ஜ":"j","ஷ":"ṣ","ஸ":"s","ஹ":"h",
+}
+_VIRAMA = "\u0BCD"  # pulli
+_AYTHAM = "ஃ"      # visarga-like; ISO often "ḥ"
+_ANUSVARA = "ஂ"    # ISO 15919 uses "ṃ"
+
+# Vowel set for detecting "between vowels" context
+_VOWELS_LAT = {"a","ā","i","ī","u","ū","e","ē","ai","o","ō","au"}
+
+def transliterate_iso15919(text: str) -> str:
+    """
+    Tamil -> ISO 15919 (lite, deterministic). Heuristic: soften த (t) to 'd'
+    when it occurs between vowels (intervocalic).
+    """
+    out = []
+    for g in re.findall(r"\X", normalize(text)):
+        # Independent vowels
+        if g in _VOW_INDEP:
+            out.append(_VOW_INDEP[g])
+            continue
+
+        # Consonant cluster: base consonant + optional vowel sign or virama
+        if g and g[0] in _CONS:
+            base = _CONS[g[0]]  # default base
+            vowel = None
+            has_virama = False
+            for ch in g[1:]:
+                if ch in _VOW_SIGNS:
+                    vowel = _VOW_SIGNS[ch]
+                    break
+                if ch == _VIRAMA:
+                    has_virama = True
+                    break
+
+            # inherent vowel if nothing specified & no virama
+            if vowel is None and not has_virama:
+                vowel = "a"
+            if has_virama:
+                vowel = ""
+
+            # Softening heuristic: த -> d between vowels (if current has a vowel)
+            if g[0] == "த" and vowel != "":
+                if out:
+                    prev = out[-1]
+                    if any(prev.endswith(v) for v in _VOWELS_LAT):
+                        base = "d"
+
+            out.append(base + vowel)
+            continue
+
+        # Special signs
+        if g == _AYTHAM:
+            out.append("ḥ"); continue
+        if g == _ANUSVARA:
+            out.append("ṃ"); continue
+
+        # Pass-through (spaces, punctuation, etc.)
+        out.append(g)
+
+    return "".join(out)

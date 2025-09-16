@@ -9,12 +9,14 @@ s = "இது ஒரு சோதனை 👋🏽"
 print(tokens(s))                              # ['இது', 'ஒரு', 'சோதனை']
 print(remove_stopwords(tokens(s), preset="ta"))  # ['சோதனை']
 print(graphemes("👩🏽‍💻"))                       # ['👩🏽‍💻']
+                      # ['👩🏽‍💻']
 
 ```
 ## Installation
 
+```python
 pip install tamil-utils
-
+```
 # Windows CLI (module form)
 ```python
 python -m tamil_utils.cli tokens "இது ஒரு சோதனை"

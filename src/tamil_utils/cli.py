@@ -1,7 +1,8 @@
 import sys, argparse, json
 from .core import (
     normalize, tokens, remove_stopwords, graphemes,
-    sents, to_arabic_numerals, to_tamil_numerals
+    sents, to_arabic_numerals, to_tamil_numerals,
+    transliterate_iso15919, script_of, token_scripts, stopwords_preset
 )
 
 def main():
@@ -31,6 +32,12 @@ def main():
     s_tota = sub.add_parser("to-tamil", help="Convert ASCII digits → Tamil digits")
     s_tota.add_argument("text", nargs="?", help="Text (defaults to stdin)")
 
+    s_tr = sub.add_parser("to-iso", help="Transliterate Tamil → ISO 15919 (lite)")
+    s_tr.add_argument("text", nargs="?", help="Text (defaults to stdin)")
+
+    s_sc = sub.add_parser("script", help="Detect script of each token")
+    s_sc.add_argument("text", nargs="?", help="Text (defaults to stdin)")
+
     args = p.parse_args()
     text = args.text if args.text is not None else sys.stdin.read()
 
@@ -39,8 +46,8 @@ def main():
     elif args.cmd == "tokens":
         toks = tokens(text)
         if args.rmstop:
-            from .core import stopwords_preset
-            toks = [t for t in toks if t not in stopwords_preset("ta")]
+            sw = stopwords_preset("ta")
+            toks = [t for t in toks if t not in sw]
         print(json.dumps(toks, ensure_ascii=False))
     elif args.cmd == "rmstop":
         print(json.dumps(remove_stopwords(tokens(text), preset=args.preset), ensure_ascii=False))
@@ -52,3 +59,7 @@ def main():
         print(to_arabic_numerals(text))
     elif args.cmd == "to-tamil":
         print(to_tamil_numerals(text))
+    elif args.cmd == "to-iso":
+        print(transliterate_iso15919(text))
+    elif args.cmd == "script":
+        print(json.dumps(token_scripts(tokens(text)), ensure_ascii=False))
