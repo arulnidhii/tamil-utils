@@ -9,7 +9,6 @@ s = "இது ஒரு சோதனை 👋🏽"
 print(tokens(s))                              # ['இது', 'ஒரு', 'சோதனை']
 print(remove_stopwords(tokens(s), preset="ta"))  # ['சோதனை']
 print(graphemes("👩🏽‍💻"))                       # ['👩🏽‍💻']
-                      # ['👩🏽‍💻']
 
 ```
 ## Installation
@@ -37,4 +36,5 @@ python -m tamil_utils.cli tokens --rmstop "இது ஒரு சோதனை"
 
 ## Status
 [![PyPI](https://img.shields.io/pypi/v/tamil-utils)](https://pypi.org/project/tamil-utils/)
-[![CI](https://github.com/arulnidhii/tamil-utils/actions/workflows/ci.yml/badge.svg)](https://github.com/arulnidhii/tamil-utils/actions)
+[![CI](https://github.com/arulnidhii/tamil-utils/actions/workflows/ci.yml/badge.svg)](https://github.com/arulnidhii/tamil-utils/actions) [![Docs](https://img.shields.io/badge/docs-mkdocs--material-blue)](https://arulnidhii.github.io/tamil-utils/)
+
