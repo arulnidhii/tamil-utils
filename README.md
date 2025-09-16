@@ -14,19 +14,21 @@ print(graphemes("👩🏽‍💻"))                       # ['👩🏽‍💻']
 ## Installation
 
 pip install tamil-utils
+
 # Windows CLI (module form)
+```python
 python -m tamil_utils.cli tokens "இது ஒரு சோதனை"
-
-```
-## New in v0.0.2
-
 ```
 # Sentence split
+```python
 python -m tamil_utils.cli sents "இது ஒரு வாக்கியம். இது இரண்டாம்? சரி!"
+```
 
 # Numerals
+```python
 python -m tamil_utils.cli to-arabic "௨௦௨௫"   # -> 2025
 python -m tamil_utils.cli to-tamil "123"     # -> ௧௨௩
+```
 
 # Tokens with stopwords removed (preset)
 python -m tamil_utils.cli tokens --rmstop "இது ஒரு சோதனை"
