@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2-stable-de-duplication" class="md-skip">
+        <a href="#corpus-utilities" class="md-skip">
           Skip to content
         </a>
       
@@ -398,6 +398,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -430,12 +432,23 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-punctuation-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      1) Punctuation normalization
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#2-stable-de-duplication" class="md-nav__link">
@@ -498,12 +511,23 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-punctuation-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      1) Punctuation normalization
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#2-stable-de-duplication" class="md-nav__link">
@@ -560,27 +584,21 @@
   
 
 
-  <h1>Corpus</h1>
-
-<pre><code class="language-markdown"># Corpus Utilities
-
-Utilities to tidy large Tamil corpora before training / RAG.
-
----
-
-## 1) Punctuation normalization
-
-```python
-from tamil_utils.corpus import normalize_punct
+<h1 id="corpus-utilities">Corpus Utilities</h1>
+<p>Utilities to tidy large Tamil corpora before training / RAG.</p>
+<hr />
+<h2 id="1-punctuation-normalization">1) Punctuation normalization</h2>
+<pre><code class="language-python">from tamil_utils.corpus import normalize_punct
 
 s = ' “இது”  ஒரு  சோதனை …  சரி  !  இது  இரண்டாம்  ? '
 print(normalize_punct(s))
 # -&gt; &quot;இது&quot; ஒரு சோதனை ... சரி! இது இரண்டாம்?
 </code></pre>
+<p><strong>What it does</strong></p>
 <ul>
 <li>Curly quotes → straight quotes</li>
 <li>Ellipsis <code>…</code> → <code>...</code> (kept atomic)</li>
-<li>Collapses whitespace</li>
+<li>Collapses redundant whitespace</li>
 <li>No space <strong>before</strong> <code>. ! ? : ;</code> and closers</li>
 <li>Exactly one space <strong>after</strong> punctuation (unless end of line)</li>
 </ul>
@@ -592,21 +610,31 @@ lines = [&quot;தமிழ் NLP\n&quot;, &quot;தமிழ் nlp\n&quot;, &
 print(dedup_lines(lines))
 # -&gt; ['தமிழ் NLP\n', 'Tamil nlp\n']
 </code></pre>
+<p><strong>Rules &amp; options</strong></p>
 <ul>
-<li>First occurrence wins</li>
+<li><strong>First occurrence wins</strong></li>
 <li><code>casefold=True</code>, <code>strip=True</code> by default (affects Latin; preserves originals)</li>
+<li>Call as <code>dedup_lines(lines, casefold=False, strip=False)</code> to disable either behavior</li>
 </ul>
 <hr />
 <h2 id="3-length-filters-chars-tokens">3) Length filters (chars &amp; tokens)</h2>
 <pre><code class="language-python">from tamil_utils.corpus import filter_by_length
 
 data = [&quot;இது&quot;, &quot;இது ஒரு&quot;, &quot;இது ஒரு சோதனை&quot;, &quot;சரி!&quot;]
-print(list(filter_by_length(data, min_tokens=2, max_tokens=3)))
+out = list(filter_by_length(data, min_tokens=2, max_tokens=3))
+print(out)
 # -&gt; ['இது ஒரு', 'இது ஒரு சோதனை']
 </code></pre>
+<p><strong>Notes</strong></p>
 <ul>
 <li>Tokenization uses <code>tamil_utils.tokens</code> after NFC normalize</li>
-<li>Combine character and token bounds as needed</li>
+<li>
+<p>Combine character and token bounds as needed:</p>
+</li>
+<li>
+<p><code>min_chars</code>, <code>max_chars</code></p>
+</li>
+<li><code>min_tokens</code>, <code>max_tokens</code></li>
 </ul>
 <hr />
 <h2 id="4-sentence-windows-for-rag">4) Sentence windows for RAG</h2>
@@ -616,31 +644,17 @@ txt = &quot;இது ஒன்று. இது இரண்டு? சரி! 
 print(window_sents(txt, k=2, stride=1))
 # -&gt; ['இது ஒன்று. இது இரண்டு?', 'இது இரண்டு? சரி!', 'சரி! முடிந்தது.']
 </code></pre>
+<p><strong>Why</strong></p>
 <ul>
-<li>Join <code>k</code> sentences per window with a sliding <code>stride</code></li>
+<li>Joins <code>k</code> sentences per window with a sliding <code>stride</code></li>
 <li>Great for chunking long docs for retrieval pipelines</li>
 </ul>
 <hr />
 <h2 id="tips">Tips</h2>
 <ul>
-<li>Use <code>normalize_punct</code> → <code>sents</code> → <code>window_sents</code> for clean, chunked inputs.</li>
-<li>For PowerShell piping, prefer UTF-8 files or run <code>python -X utf8</code>.</li>
+<li>Use <code>normalize_punct</code> → <code>sents</code> → <code>window_sents</code> for clean, chunked inputs</li>
+<li>For PowerShell piping, prefer UTF-8 files or run <code>python -X utf8</code></li>
 </ul>
-<pre><code>
----
-
-### Apply &amp; publish
-```powershell
-git add docs/corpus.md
-# add to nav
-# mkdocs.yml -&gt; nav:
-#   - Corpus: corpus.md
-git add mkdocs.yml
-git commit -m &quot;docs: add corpus utilities page (normalize_punct, dedup, length filter, windows)&quot;
-git push origin main
-python -m mkdocs gh-deploy --force
-</code></pre>
-<p>Say <strong>next</strong> if you want the optional <strong>CLI shims</strong> (<code>corpus-dedup</code>, <code>corpus-filter</code>, <code>corpus-windows</code>) or we can jump to packaging a <strong>v0.4.0a1</strong> preview release.</p>
 
 
 

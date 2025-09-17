@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#examples-recipes" class="md-skip">
+        <a href="#recipes" class="md-skip">
           Skip to content
         </a>
       
@@ -334,78 +334,90 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-clean-tokenize-stopwords-n-grams-frequency-sort" class="md-nav__link">
+  <a href="#1-quick-clean-jsonl-cli" class="md-nav__link">
     <span class="md-ellipsis">
-      1) Clean → Tokenize → Stopwords → N-grams → Frequency → Sort
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="1) Clean → Tokenize → Stopwords → N-grams → Frequency → Sort">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#python" class="md-nav__link">
-    <span class="md-ellipsis">
-      Python
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cli" class="md-nav__link">
-    <span class="md-ellipsis">
-      CLI
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-sentence-splitting-numerals" class="md-nav__link">
-    <span class="md-ellipsis">
-      2) Sentence splitting + numerals
+      1) Quick clean → JSONL (CLI)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-script-detection-transliteration" class="md-nav__link">
+  <a href="#2-deduplicate-filter-before-preprocessing-cli" class="md-nav__link">
     <span class="md-ellipsis">
-      3) Script detection + transliteration
+      2) Deduplicate + filter before preprocessing (CLI)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-syllables-approximate-grapheme-based" class="md-nav__link">
+  <a href="#3-rag-chunks-via-sentence-windows-cli" class="md-nav__link">
     <span class="md-ellipsis">
-      4) Syllables (approximate, grapheme-based)
+      3) RAG chunks via sentence windows (CLI)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-simple-text-stats" class="md-nav__link">
+  <a href="#4-end-to-end-in-python-clean-window-hf-dataset" class="md-nav__link">
     <span class="md-ellipsis">
-      5) Simple text stats
+      4) End-to-end in Python: clean → window → HF Dataset
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#notes-tips" class="md-nav__link">
+  <a href="#5-minimal-training-jsonl-keep-only-text" class="md-nav__link">
     <span class="md-ellipsis">
-      Notes &amp; Tips
+      5) Minimal training JSONL (keep only "text")
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-spacy-tokenizer-hook-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      6) spaCy tokenizer hook (optional)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-n-gram-counts-for-quick-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      7) N-gram counts for quick analysis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-sorting-titles-in-tamil-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      8) Sorting titles in Tamil order
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-common-gotchas" class="md-nav__link">
+    <span class="md-ellipsis">
+      9) Common gotchas
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-tiny-checklists" class="md-nav__link">
+    <span class="md-ellipsis">
+      10) Tiny checklists
     </span>
   </a>
   
@@ -556,78 +568,90 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-clean-tokenize-stopwords-n-grams-frequency-sort" class="md-nav__link">
+  <a href="#1-quick-clean-jsonl-cli" class="md-nav__link">
     <span class="md-ellipsis">
-      1) Clean → Tokenize → Stopwords → N-grams → Frequency → Sort
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="1) Clean → Tokenize → Stopwords → N-grams → Frequency → Sort">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#python" class="md-nav__link">
-    <span class="md-ellipsis">
-      Python
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cli" class="md-nav__link">
-    <span class="md-ellipsis">
-      CLI
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-sentence-splitting-numerals" class="md-nav__link">
-    <span class="md-ellipsis">
-      2) Sentence splitting + numerals
+      1) Quick clean → JSONL (CLI)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-script-detection-transliteration" class="md-nav__link">
+  <a href="#2-deduplicate-filter-before-preprocessing-cli" class="md-nav__link">
     <span class="md-ellipsis">
-      3) Script detection + transliteration
+      2) Deduplicate + filter before preprocessing (CLI)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-syllables-approximate-grapheme-based" class="md-nav__link">
+  <a href="#3-rag-chunks-via-sentence-windows-cli" class="md-nav__link">
     <span class="md-ellipsis">
-      4) Syllables (approximate, grapheme-based)
+      3) RAG chunks via sentence windows (CLI)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-simple-text-stats" class="md-nav__link">
+  <a href="#4-end-to-end-in-python-clean-window-hf-dataset" class="md-nav__link">
     <span class="md-ellipsis">
-      5) Simple text stats
+      4) End-to-end in Python: clean → window → HF Dataset
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#notes-tips" class="md-nav__link">
+  <a href="#5-minimal-training-jsonl-keep-only-text" class="md-nav__link">
     <span class="md-ellipsis">
-      Notes &amp; Tips
+      5) Minimal training JSONL (keep only "text")
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-spacy-tokenizer-hook-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      6) spaCy tokenizer hook (optional)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-n-gram-counts-for-quick-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      7) N-gram counts for quick analysis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-sorting-titles-in-tamil-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      8) Sorting titles in Tamil order
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-common-gotchas" class="md-nav__link">
+    <span class="md-ellipsis">
+      9) Common gotchas
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-tiny-checklists" class="md-nav__link">
+    <span class="md-ellipsis">
+      10) Tiny checklists
     </span>
   </a>
   
@@ -652,74 +676,116 @@
   
 
 
-<h1 id="examples-recipes">Examples &amp; Recipes</h1>
-<p>A few practical “copy-paste” workflows for <code>tamil-utils</code>.</p>
+<h1 id="recipes">Recipes</h1>
+<p>Copy-pasteable pipelines for apps, data prep, and RAG.</p>
 <hr />
-<h2 id="1-clean-tokenize-stopwords-n-grams-frequency-sort">1) Clean → Tokenize → Stopwords → N-grams → Frequency → Sort</h2>
-<h3 id="python">Python</h3>
-<pre><code class="language-python">from tamil_utils import tokens, remove_stopwords, ngrams, word_counts, sort_tamil
-
-text = &quot;தமிழ் NLP தமிழ் பயன்பாடு தமிழ் NLP&quot;
-
-tok = tokens(text)
-tok_nostop = remove_stopwords(tok, preset=&quot;ta&quot;)
-
-# bigrams
-bigs = [&quot; &quot;.join(g) for g in ngrams(tok_nostop, 2)]
-print(bigs)
-
-# top-2 bigrams by frequency
-print(word_counts(text, n=2, top=2))
-
-# sort Tamil words (lightweight collation)
-print(sort_tamil([&quot;இலங்கை&quot;, &quot;ஆதி&quot;, &quot;அடி&quot;]))
+<h2 id="1-quick-clean-jsonl-cli">1) Quick clean → JSONL (CLI)</h2>
+<pre><code class="language-bash"># Normalize punctuation, then preprocess to JSONL with numerals harmonized
+# One record per line: {&quot;text&quot;,&quot;sents&quot;,&quot;tokens&quot;,&quot;tokens_nostop&quot;}
+python -m tamil_utils.cli preprocess --numerals ar --rmstop &lt; input.txt &gt; out.jsonl
 </code></pre>
-<h3 id="cli">CLI</h3>
-<pre><code class="language-bash">python -m tamil_utils.cli tokens --rmstop &quot;தமிழ் NLP தமிழ் பயன்பாடு தமிழ் NLP&quot;
-python -m tamil_utils.cli ngrams -n 2 &quot;தமிழ் NLP தமிழ் பயன்பாடு தமிழ் NLP&quot;
-python -m tamil_utils.cli freq -n 2 --top 2 &quot;தமிழ் NLP தமிழ் பயன்பாடு தமிழ் NLP&quot;
-python -m tamil_utils.cli sort இலங்கை ஆதி அடி
+<p><strong>Tip (Windows PowerShell, UTF-8):</strong></p>
+<pre><code class="language-powershell">Set-Content in.txt -Value '“இது”  ஒரு  சோதனை …  சரி!' -Encoding UTF8
+Get-Content -Raw -Encoding UTF8 .\in.txt | python -X utf8 -m tamil_utils.cli preprocess --numerals ar --rmstop
 </code></pre>
 <hr />
-<h2 id="2-sentence-splitting-numerals">2) Sentence splitting + numerals</h2>
-<pre><code class="language-python">from tamil_utils import sents, to_arabic_numerals, to_tamil_numerals
+<h2 id="2-deduplicate-filter-before-preprocessing-cli">2) Deduplicate + filter before preprocessing (CLI)</h2>
+<pre><code class="language-bash"># Remove duplicates (stable order)
+python -m tamil_utils.cli corpus-dedup --file raw.txt &gt; uniq.txt
 
-print(sents(&quot;இது ஒன்று. இது இரண்டு? சரி!&quot;))
-print(to_arabic_numerals(&quot;௨௦௨௫&quot;))  # -&gt; &quot;2025&quot;
-print(to_tamil_numerals(&quot;123&quot;))    # -&gt; &quot;௧௨௩&quot;
+# Keep medium-sized lines (2–50 tokens)
+python -m tamil_utils.cli corpus-filter --file uniq.txt --min-tokens 2 --max-tokens 50 &gt; kept.txt
+
+# Convert to JSONL records
+python -m tamil_utils.cli preprocess --numerals ar --rmstop &lt; kept.txt &gt; data.jsonl
 </code></pre>
 <hr />
-<h2 id="3-script-detection-transliteration">3) Script detection + transliteration</h2>
-<pre><code class="language-python">from tamil_utils import tokens, token_scripts, transliterate_iso15919
+<h2 id="3-rag-chunks-via-sentence-windows-cli">3) RAG chunks via sentence windows (CLI)</h2>
+<pre><code class="language-bash"># Windows of 3 sentences with stride 1 (overlapping chunks)
+python -m tamil_utils.cli corpus-windows --k 3 --stride 1 --file doc.txt &gt; chunks.txt
 
-print(token_scripts(tokens(&quot;கோட்123 hello&quot;)))
-# Example output: [(&quot;கோட்123&quot;, &quot;Mixed&quot;), (&quot;hello&quot;, &quot;Latin&quot;)]
-
-print(transliterate_iso15919(&quot;தமிழ்&quot;))  # -&gt; &quot;tamiḻ&quot;
-print(transliterate_iso15919(&quot;ஆதி&quot;))   # -&gt; &quot;ādi&quot;
+# (optional) Further normalize / tokenize per chunk
+python -m tamil_utils.cli preprocess --numerals ar --rmstop &lt; chunks.txt &gt; chunks.jsonl
 </code></pre>
 <hr />
-<h2 id="4-syllables-approximate-grapheme-based">4) Syllables (approximate, grapheme-based)</h2>
-<pre><code class="language-python">from tamil_utils import syllables
+<h2 id="4-end-to-end-in-python-clean-window-hf-dataset">4) End-to-end in Python: clean → window → HF Dataset</h2>
+<pre><code class="language-python">import json
+from tamil_utils.corpus import normalize_punct, window_sents
+from tamil_utils.preprocess import PreprocessOptions, preprocess_record
+from tamil_utils.hf_export import to_hf_dataset  # pip install datasets
 
-print(syllables(&quot;தமிழ்🙂 test 123&quot;))  # Processes Tamil clusters; ignores non-Tamil
+text = ' “இது”  ஒரு  சோதனை …  சரி! இது இரண்டாம்? '
+clean = normalize_punct(text)
+wins = window_sents(clean, k=2, stride=1)     # sentence windows
+
+opts = PreprocessOptions(numerals=&quot;ar&quot;, rmstop=True, emit=[&quot;text&quot;,&quot;tokens&quot;,&quot;tokens_nostop&quot;])
+records = [preprocess_record(w, opts) for w in wins]
+
+ds = to_hf_dataset(records)
+print(ds)
+# save to disk for training later:
+#   from tamil_utils.hf_export import save_hf_dataset
+#   save_hf_dataset(ds, &quot;out_ds&quot;)
 </code></pre>
 <hr />
-<h2 id="5-simple-text-stats">5) Simple text stats</h2>
+<h2 id="5-minimal-training-jsonl-keep-only-text">5) Minimal training JSONL (keep only <code>"text"</code>)</h2>
+<p>If you only need <code>text</code> for LM/RAG ingestion:</p>
+<pre><code class="language-bash">python -m tamil_utils.cli preprocess --numerals ar --emit text &lt; input.txt &gt; text_only.jsonl
+</code></pre>
+<p>Each line:</p>
+<pre><code class="language-json">{&quot;text&quot;: &quot;இது ஒரு சோதனை 2025&quot;}
+</code></pre>
+<hr />
+<h2 id="6-spacy-tokenizer-hook-optional">6) spaCy tokenizer hook (optional)</h2>
+<p>Mirror <code>tamil_utils.tokens</code> inside spaCy:</p>
+<pre><code class="language-python">import spacy
+from tamil_utils.spacy_hook import install_tamil_tokenizer
+
+nlp = spacy.blank(&quot;xx&quot;)            # language-agnostic
+install_tamil_tokenizer(nlp)       # NFC-normalizes and replaces tokenizer
+doc = nlp(&quot;இது ஒரு சோதனை 2025&quot;)
+print([t.text for t in doc])       # ['இது','ஒரு','சோதனை','2025']
+</code></pre>
+<p>Install:</p>
+<pre><code class="language-bash">pip install &quot;tamil-utils[spacy]&quot;
+</code></pre>
+<hr />
+<h2 id="7-n-gram-counts-for-quick-analysis">7) N-gram counts for quick analysis</h2>
+<pre><code class="language-bash">python -m tamil_utils.cli freq -n 1 --top 20 &quot;தமிழ் NLP தமிழ் பயன்பாடு&quot;
+python -m tamil_utils.cli freq -n 2 --top 10 &quot;தமிழ் NLP தமிழ் NLP&quot;
+</code></pre>
+<p>Programmatically:</p>
 <pre><code class="language-python">from tamil_utils import word_counts
-
-text = &quot;இது ஒரு சோதனை இது ஒரு சோதனை&quot;
-print(word_counts(text, rmstop=True, preset=&quot;ta&quot;, n=1))
-# -&gt; [(&quot;சோதனை&quot;, 2)]
+print(word_counts(&quot;தமிழ் NLP தமிழ் NLP&quot;, n=2, top=3))
 </code></pre>
 <hr />
-<h2 id="notes-tips">Notes &amp; Tips</h2>
+<h2 id="8-sorting-titles-in-tamil-order">8) Sorting titles in Tamil order</h2>
+<pre><code class="language-python">from tamil_utils import sort_tamil
+titles = [&quot;இலங்கை&quot;, &quot;ஆதி&quot;, &quot;அடி&quot;]
+print(sort_tamil(titles))  # ['அடி', 'ஆதி', 'இலங்கை']
+</code></pre>
+<p>For strict, locale-aware collation (libraries, catalogs), use ICU (<code>PyICU</code>) and <strong>fallback</strong> to <code>sort_tamil</code>.</p>
+<hr />
+<h2 id="9-common-gotchas">9) Common gotchas</h2>
 <ul>
-<li><strong>Collation</strong>: <code>sort_tamil</code> uses a lightweight ISO-15919 key. For strict collation (ICU), keep ours as default and layer ICU in your app if needed.</li>
-<li><strong>Stopwords</strong>: You can pass your own set to <code>remove_stopwords(tokens, stopwords=my_set)</code>.</li>
-<li><strong>Performance</strong>: For large corpora, stream line-by-line and aggregate <code>word_counts</code> periodically.</li>
+<li><strong>Encoding:</strong> prefer UTF-8 files and <code>python -X utf8</code> when piping on Windows.</li>
+<li><strong>Normalization:</strong> mixed corpora benefit from <code>normalize_punct</code> before <code>sents</code>/<code>window_sents</code>.</li>
+<li><strong>Stopwords:</strong> Tamil preset is pragmatic, not exhaustive—tune for your domain.</li>
 </ul>
 <hr />
+<h2 id="10-tiny-checklists">10) Tiny checklists</h2>
+<p><strong>RAG prep (docs → chunks → JSONL):</strong></p>
+<ol>
+<li><code>normalize_punct(doc)</code></li>
+<li><code>window_sents(..., k=3, stride=1)</code></li>
+<li><code>preprocess_record(chunk, numerals='ar', rmstop=True)</code></li>
+<li>(optional) <code>to_hf_dataset(records)</code></li>
+</ol>
+<p><strong>Corpus cleanup (CLI):</strong></p>
+<pre><code class="language-bash">python -m tamil_utils.cli corpus-dedup --file raw.txt \
+| python -m tamil_utils.cli corpus-filter --min-tokens 2 --max-tokens 50 \
+| python -m tamil_utils.cli preprocess --numerals ar --rmstop &gt; data.jsonl
+</code></pre>
 
 
 
