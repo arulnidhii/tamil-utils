@@ -1,95 +1,164 @@
-# Examples & Recipes
+# Recipes
 
-A few practical “copy-paste” workflows for `tamil-utils`.
+Copy-pasteable pipelines for apps, data prep, and RAG.
 
 ---
 
-## 1) Clean → Tokenize → Stopwords → N-grams → Frequency → Sort
-
-### Python
-
-```python
-from tamil_utils import tokens, remove_stopwords, ngrams, word_counts, sort_tamil
-
-text = "தமிழ் NLP தமிழ் பயன்பாடு தமிழ் NLP"
-
-tok = tokens(text)
-tok_nostop = remove_stopwords(tok, preset="ta")
-
-# bigrams
-bigs = [" ".join(g) for g in ngrams(tok_nostop, 2)]
-print(bigs)
-
-# top-2 bigrams by frequency
-print(word_counts(text, n=2, top=2))
-
-# sort Tamil words (lightweight collation)
-print(sort_tamil(["இலங்கை", "ஆதி", "அடி"]))
-```
-
-### CLI
+## 1) Quick clean → JSONL (CLI)
 
 ```bash
-python -m tamil_utils.cli tokens --rmstop "தமிழ் NLP தமிழ் பயன்பாடு தமிழ் NLP"
-python -m tamil_utils.cli ngrams -n 2 "தமிழ் NLP தமிழ் பயன்பாடு தமிழ் NLP"
-python -m tamil_utils.cli freq -n 2 --top 2 "தமிழ் NLP தமிழ் பயன்பாடு தமிழ் NLP"
-python -m tamil_utils.cli sort இலங்கை ஆதி அடி
+# Normalize punctuation, then preprocess to JSONL with numerals harmonized
+# One record per line: {"text","sents","tokens","tokens_nostop"}
+python -m tamil_utils.cli preprocess --numerals ar --rmstop < input.txt > out.jsonl
+```
+
+**Tip (Windows PowerShell, UTF-8):**
+
+```powershell
+Set-Content in.txt -Value '“இது”  ஒரு  சோதனை …  சரி!' -Encoding UTF8
+Get-Content -Raw -Encoding UTF8 .\in.txt | python -X utf8 -m tamil_utils.cli preprocess --numerals ar --rmstop
 ```
 
 ---
 
-## 2) Sentence splitting + numerals
+## 2) Deduplicate + filter before preprocessing (CLI)
+
+```bash
+# Remove duplicates (stable order)
+python -m tamil_utils.cli corpus-dedup --file raw.txt > uniq.txt
+
+# Keep medium-sized lines (2–50 tokens)
+python -m tamil_utils.cli corpus-filter --file uniq.txt --min-tokens 2 --max-tokens 50 > kept.txt
+
+# Convert to JSONL records
+python -m tamil_utils.cli preprocess --numerals ar --rmstop < kept.txt > data.jsonl
+```
+
+---
+
+## 3) RAG chunks via sentence windows (CLI)
+
+```bash
+# Windows of 3 sentences with stride 1 (overlapping chunks)
+python -m tamil_utils.cli corpus-windows --k 3 --stride 1 --file doc.txt > chunks.txt
+
+# (optional) Further normalize / tokenize per chunk
+python -m tamil_utils.cli preprocess --numerals ar --rmstop < chunks.txt > chunks.jsonl
+```
+
+---
+
+## 4) End-to-end in Python: clean → window → HF Dataset
 
 ```python
-from tamil_utils import sents, to_arabic_numerals, to_tamil_numerals
+import json
+from tamil_utils.corpus import normalize_punct, window_sents
+from tamil_utils.preprocess import PreprocessOptions, preprocess_record
+from tamil_utils.hf_export import to_hf_dataset  # pip install datasets
 
-print(sents("இது ஒன்று. இது இரண்டு? சரி!"))
-print(to_arabic_numerals("௨௦௨௫"))  # -> "2025"
-print(to_tamil_numerals("123"))    # -> "௧௨௩"
+text = ' “இது”  ஒரு  சோதனை …  சரி! இது இரண்டாம்? '
+clean = normalize_punct(text)
+wins = window_sents(clean, k=2, stride=1)     # sentence windows
+
+opts = PreprocessOptions(numerals="ar", rmstop=True, emit=["text","tokens","tokens_nostop"])
+records = [preprocess_record(w, opts) for w in wins]
+
+ds = to_hf_dataset(records)
+print(ds)
+# save to disk for training later:
+#   from tamil_utils.hf_export import save_hf_dataset
+#   save_hf_dataset(ds, "out_ds")
 ```
 
 ---
 
-## 3) Script detection + transliteration
+## 5) Minimal training JSONL (keep only `"text"`)
+
+If you only need `text` for LM/RAG ingestion:
+
+```bash
+python -m tamil_utils.cli preprocess --numerals ar --emit text < input.txt > text_only.jsonl
+```
+
+Each line:
+
+```json
+{"text": "இது ஒரு சோதனை 2025"}
+```
+
+---
+
+## 6) spaCy tokenizer hook (optional)
+
+Mirror `tamil_utils.tokens` inside spaCy:
 
 ```python
-from tamil_utils import tokens, token_scripts, transliterate_iso15919
+import spacy
+from tamil_utils.spacy_hook import install_tamil_tokenizer
 
-print(token_scripts(tokens("கோட்123 hello")))
-# Example output: [("கோட்123", "Mixed"), ("hello", "Latin")]
+nlp = spacy.blank("xx")            # language-agnostic
+install_tamil_tokenizer(nlp)       # NFC-normalizes and replaces tokenizer
+doc = nlp("இது ஒரு சோதனை 2025")
+print([t.text for t in doc])       # ['இது','ஒரு','சோதனை','2025']
+```
 
-print(transliterate_iso15919("தமிழ்"))  # -> "tamiḻ"
-print(transliterate_iso15919("ஆதி"))   # -> "ādi"
+Install:
+
+```bash
+pip install "tamil-utils[spacy]"
 ```
 
 ---
 
-## 4) Syllables (approximate, grapheme-based)
+## 7) N-gram counts for quick analysis
 
-```python
-from tamil_utils import syllables
-
-print(syllables("தமிழ்🙂 test 123"))  # Processes Tamil clusters; ignores non-Tamil
+```bash
+python -m tamil_utils.cli freq -n 1 --top 20 "தமிழ் NLP தமிழ் பயன்பாடு"
+python -m tamil_utils.cli freq -n 2 --top 10 "தமிழ் NLP தமிழ் NLP"
 ```
 
----
-
-## 5) Simple text stats
+Programmatically:
 
 ```python
 from tamil_utils import word_counts
-
-text = "இது ஒரு சோதனை இது ஒரு சோதனை"
-print(word_counts(text, rmstop=True, preset="ta", n=1))
-# -> [("சோதனை", 2)]
+print(word_counts("தமிழ் NLP தமிழ் NLP", n=2, top=3))
 ```
 
 ---
 
-## Notes & Tips
+## 8) Sorting titles in Tamil order
 
-* **Collation**: `sort_tamil` uses a lightweight ISO-15919 key. For strict collation (ICU), keep ours as default and layer ICU in your app if needed.
-* **Stopwords**: You can pass your own set to `remove_stopwords(tokens, stopwords=my_set)`.
-* **Performance**: For large corpora, stream line-by-line and aggregate `word_counts` periodically.
+```python
+from tamil_utils import sort_tamil
+titles = ["இலங்கை", "ஆதி", "அடி"]
+print(sort_tamil(titles))  # ['அடி', 'ஆதி', 'இலங்கை']
+```
+
+For strict, locale-aware collation (libraries, catalogs), use ICU (`PyICU`) and **fallback** to `sort_tamil`.
 
 ---
+
+## 9) Common gotchas
+
+* **Encoding:** prefer UTF-8 files and `python -X utf8` when piping on Windows.
+* **Normalization:** mixed corpora benefit from `normalize_punct` before `sents`/`window_sents`.
+* **Stopwords:** Tamil preset is pragmatic, not exhaustive—tune for your domain.
+
+---
+
+## 10) Tiny checklists
+
+**RAG prep (docs → chunks → JSONL):**
+
+1. `normalize_punct(doc)`
+2. `window_sents(..., k=3, stride=1)`
+3. `preprocess_record(chunk, numerals='ar', rmstop=True)`
+4. (optional) `to_hf_dataset(records)`
+
+**Corpus cleanup (CLI):**
+
+```bash
+python -m tamil_utils.cli corpus-dedup --file raw.txt \
+| python -m tamil_utils.cli corpus-filter --min-tokens 2 --max-tokens 50 \
+| python -m tamil_utils.cli preprocess --numerals ar --rmstop > data.jsonl
+```
