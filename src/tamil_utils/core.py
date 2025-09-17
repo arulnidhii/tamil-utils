@@ -1,5 +1,7 @@
 import unicodedata
 import regex as re
+from collections import Counter
+from typing import Iterable, List, Tuple
 
 # Keep only ZERO WIDTH SPACE removable; preserve ZWJ/ZWNJ for ligatures/shaping
 _ZW = dict.fromkeys(map(ord, ["\u200B"]), None)
@@ -176,3 +178,86 @@ def transliterate_iso15919(text: str) -> str:
         out.append(g)
 
     return "".join(out)
+
+# -------------------- v0.2: Developer-quality utilities --------------------
+
+def ngrams(seq: Iterable[str], n: int) -> List[Tuple[str, ...]]:
+    """Return n-grams as tuples from a sequence of tokens."""
+    seq = list(seq)
+    if n <= 0:
+        raise ValueError("n must be >= 1")
+    return [tuple(seq[i:i+n]) for i in range(len(seq)-n+1)]
+
+def bigrams(seq: Iterable[str]) -> List[Tuple[str, str]]:
+    return ngrams(seq, 2)
+
+def trigrams(seq: Iterable[str]) -> List[Tuple[str, str, str]]:
+    return ngrams(seq, 3)
+
+def word_counts(text_or_tokens, *, rmstop: bool = False, preset: str = "ta",
+                n: int = 1, top: int | None = None) -> List[Tuple[str, int]]:
+    """
+    Count token or n-gram frequencies.
+    - text_or_tokens: raw string or a token iterable
+    - rmstop: remove stopwords using preset (when n==1)
+    - n: 1 for unigrams (default), 2/3 for bi/tri-grams
+    - top: return only top N (most common), else all
+    Returns a list of (item, count) sorted by count desc.
+    """
+    if isinstance(text_or_tokens, str):
+        toks = tokens(text_or_tokens)
+    else:
+        toks = list(text_or_tokens)
+
+    if n == 1 and rmstop:
+        toks = remove_stopwords(toks, preset=preset)
+
+    if n >= 2:
+        items = [" ".join(g) for g in ngrams(toks, n)]
+    else:
+        items = toks
+
+    c = Counter(items)
+    most = c.most_common(top)
+    return most
+
+def syllables(text: str) -> List[str]:
+    """
+    Approximate syllable (akshara/uyirmei) segmentation for Tamil.
+    Uses grapheme clusters and filters to Tamil script clusters.
+    """
+    return [g for g in graphemes(text) if _TAMIL_RE.search(g)]
+
+def _iso_collation_key(s: str) -> str:
+    """
+    Build an ASCII-ish key from ISO-15919 so Tamil vowels sort as:
+    a < ā < i < ī < u < ū < e < ē < ai < o < ō < au
+    and diacritic consonants get stable order.
+    """
+    t = transliterate_iso15919(normalize(s))
+    # Handle vowel digraphs first (map to placeholders that sort after ē/ō)
+    t = t.replace("ai", "e~~").replace("au", "o~~")
+    # Long vowels sort after shorts
+    t = (t.replace("ā", "a~")
+           .replace("ī", "i~")
+           .replace("ū", "u~")
+           .replace("ē", "e~")
+           .replace("ō", "o~"))
+    # Stabilize consonants with diacritics
+    t = (t.replace("ṭ", "t~")
+           .replace("ṇ", "n~")
+           .replace("ṅ", "ng")
+           .replace("ñ", "ny")
+           .replace("ḷ", "l~")
+           .replace("ḻ", "lz")
+           .replace("ṟ", "r~")
+           .replace("ṉ", "n`")
+           .replace("ṣ", "s~"))
+    return t
+
+def sort_tamil(words: Iterable[str]) -> List[str]:
+    """
+    Sort words in a consistent Tamil-first order (lightweight collation).
+    Implemented by building a custom ISO-15919-based collation key.
+    """
+    return sorted(words, key=_iso_collation_key)

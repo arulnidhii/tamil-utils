@@ -2,7 +2,9 @@ import sys, argparse, json
 from .core import (
     normalize, tokens, remove_stopwords, graphemes,
     sents, to_arabic_numerals, to_tamil_numerals,
-    transliterate_iso15919, script_of, token_scripts, stopwords_preset
+    transliterate_iso15919, script_of, token_scripts, stopwords_preset,
+    # v0.2
+    ngrams, bigrams, trigrams, word_counts, syllables, sort_tamil
 )
 
 def main():
@@ -38,28 +40,100 @@ def main():
     s_sc = sub.add_parser("script", help="Detect script of each token")
     s_sc.add_argument("text", nargs="?", help="Text (defaults to stdin)")
 
+    # --- v0.2 commands ---
+
+    s_ng = sub.add_parser("ngrams", help="Generate n-grams from text tokens")
+    s_ng.add_argument("text", nargs="?", help="Text (defaults to stdin)")
+    s_ng.add_argument("-n", type=int, default=2, help="n for n-grams (default: 2)")
+
+    s_bg = sub.add_parser("bigrams", help="Generate bigrams from text tokens")
+    s_bg.add_argument("text", nargs="?", help="Text (defaults to stdin)")
+
+    s_tg = sub.add_parser("trigrams", help="Generate trigrams from text tokens")
+    s_tg.add_argument("text", nargs="?", help="Text (defaults to stdin)")
+
+    s_freq = sub.add_parser("freq", help="Word/n-gram frequency")
+    s_freq.add_argument("text", nargs="?", help="Text (defaults to stdin)")
+    s_freq.add_argument("-n", type=int, default=1, help="n for n-grams (1,2,3; default: 1)")
+    s_freq.add_argument("--top", type=int, default=None, help="Return top N items")
+    s_freq.add_argument("--rmstop", action="store_true", help="Remove stopwords (only when n=1)")
+    s_freq.add_argument("--preset", default="ta", help='Stopwords preset (default: "ta")')
+
+    s_syl = sub.add_parser("syllables", help="Approximate Tamil syllable units (grapheme-based)")
+    s_syl.add_argument("text", nargs="?", help="Text (defaults to stdin)")
+
+    s_sort = sub.add_parser("sort", help="Sort words in Tamil order (ISO-15919 key)")
+    s_sort.add_argument("words", nargs="*", help="Words to sort; if empty, read newline-separated from stdin")
+
     args = p.parse_args()
-    text = args.text if args.text is not None else sys.stdin.read()
+
+    # helper to get text from arg or stdin
+    def _read_text(arg):
+        return arg if arg is not None else sys.stdin.read()
 
     if args.cmd == "normalize":
-        print(normalize(text))
+        print(normalize(_read_text(args.text)))
     elif args.cmd == "tokens":
-        toks = tokens(text)
+        txt = _read_text(args.text)
+        toks = tokens(txt)
         if args.rmstop:
             sw = stopwords_preset("ta")
             toks = [t for t in toks if t not in sw]
         print(json.dumps(toks, ensure_ascii=False))
     elif args.cmd == "rmstop":
-        print(json.dumps(remove_stopwords(tokens(text), preset=args.preset), ensure_ascii=False))
+        txt = _read_text(args.text)
+        print(json.dumps(remove_stopwords(tokens(txt), preset=args.preset), ensure_ascii=False))
     elif args.cmd == "graphemes":
-        print(json.dumps(graphemes(text), ensure_ascii=False))
+        print(json.dumps(graphemes(_read_text(args.text)), ensure_ascii=False))
     elif args.cmd == "sents":
-        print(json.dumps(sents(text), ensure_ascii=False))
+        print(json.dumps(sents(_read_text(args.text)), ensure_ascii=False))
     elif args.cmd == "to-arabic":
-        print(to_arabic_numerals(text))
+        print(to_arabic_numerals(_read_text(args.text)))
     elif args.cmd == "to-tamil":
-        print(to_tamil_numerals(text))
+        print(to_tamil_numerals(_read_text(args.text)))
     elif args.cmd == "to-iso":
-        print(transliterate_iso15919(text))
+        print(transliterate_iso15919(_read_text(args.text)))
     elif args.cmd == "script":
-        print(json.dumps(token_scripts(tokens(text)), ensure_ascii=False))
+        txt = _read_text(args.text)
+        print(json.dumps(token_scripts(tokens(txt)), ensure_ascii=False))
+
+    # --- v0.2 dispatch ---
+    elif args.cmd == "ngrams":
+        txt = _read_text(args.text)
+        if args.n < 1:
+            raise SystemExit("n must be >= 1")
+        toks = tokens(txt)
+        if args.n == 1:
+            items = toks
+        elif args.n == 2:
+            items = [" ".join(b) for b in bigrams(toks)]
+        elif args.n == 3:
+            items = [" ".join(t) for t in trigrams(toks)]
+        else:
+            items = [" ".join(g) for g in ngrams(toks, args.n)]
+        print(json.dumps(items, ensure_ascii=False))
+    elif args.cmd == "bigrams":
+        txt = _read_text(args.text)
+        toks = tokens(txt)
+        items = [" ".join(b) for b in bigrams(toks)]
+        print(json.dumps(items, ensure_ascii=False))
+    elif args.cmd == "trigrams":
+        txt = _read_text(args.text)
+        toks = tokens(txt)
+        items = [" ".join(t) for t in trigrams(toks)]
+        print(json.dumps(items, ensure_ascii=False))
+    elif args.cmd == "freq":
+        txt = _read_text(args.text)
+        if args.n < 1 or args.n > 5:
+            raise SystemExit("n must be in 1..5")
+        pairs = word_counts(txt, rmstop=args.rmstop, preset=args.preset, n=args.n, top=args.top)
+        # output as list of [item, count]
+        print(json.dumps([[k, v] for k, v in pairs], ensure_ascii=False))
+    elif args.cmd == "syllables":
+        print(json.dumps(syllables(_read_text(args.text)), ensure_ascii=False))
+    elif args.cmd == "sort":
+        if args.words:
+            words = args.words
+        else:
+            words = [w.strip() for w in sys.stdin.read().splitlines() if w.strip()]
+        print(json.dumps(sort_tamil(words), ensure_ascii=False))
