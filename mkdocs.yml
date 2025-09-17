@@ -1,7 +1,13 @@
 site_name: tamil-utils
 repo_url: https://github.com/arulnidhii/tamil-utils
+edit_uri: blob/main/docs/
+
 theme:
   name: material
+  features:
+    - content.code.copy
+    - navigation.top
+    - search.highlight
 
 nav:
   - Home: index.md
@@ -10,6 +16,5 @@ nav:
   - Recipes: recipes.md
   - Collation: collation.md
   - Preprocess: preprocess.md
-  - SpaCy: spacy.md
   - Hugging Face: hf.md
-
+  - spaCy: spacy.md
