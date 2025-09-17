@@ -98,7 +98,11 @@ records = [{"text": "இது ஒரு சோதனை 2025",
 ds = to_hf_dataset(records)
 print(ds)
 ```
+## What’s new in v0.4” bullet:
 
+Corpus utilities: normalize_punct, dedup_lines, filter_by_length, window_sents
+
+New CLI: corpus-dedup, corpus-filter, corpus-windows
 
 ## License
 
