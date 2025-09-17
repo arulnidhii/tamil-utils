@@ -10,4 +10,5 @@ nav:
   - Recipes: recipes.md
   - Collation: collation.md
   - Preprocess: preprocess.md
+  - SpaCy: spacy.md
 
