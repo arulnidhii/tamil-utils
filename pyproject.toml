@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tamil-utils"
-version = "0.3.0a1"
+version = "0.3.0"
 description = "Tiny Tamil text utilities: normalize, tokenize, stopwords, graphemes, n-grams, syllables, Tamil collation; dataset preprocessor; optional spaCy tokenizer hook."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -33,6 +33,7 @@ tamil-utils = "tamil_utils.cli:main"
 
 [project.optional-dependencies]
 spacy = ["spacy>=3.6,<4"]
+hf = ["datasets>=2.16.0"]
 dev = ["pytest>=7", "pytest-benchmark>=4", "mkdocs>=1.5", "mkdocs-material>=9"]
 
 [tool.setuptools]
