@@ -225,6 +225,19 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="." class="md-nav__link md-nav__link--active">
         
   
@@ -236,6 +249,67 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli-quickstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLI quickstart
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CLI quickstart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#windows-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows note
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#links" class="md-nav__link">
+    <span class="md-ellipsis">
+      Links
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -358,12 +432,12 @@
   
   
     <li class="md-nav__item">
-      <a href="spacy/" class="md-nav__link">
+      <a href="hf/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    SpaCy
+    Hugging Face
     
   </span>
   
@@ -380,12 +454,12 @@
   
   
     <li class="md-nav__item">
-      <a href="hf/" class="md-nav__link">
+      <a href="spacy/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Hugging Face
+    spaCy
     
   </span>
   
@@ -415,6 +489,56 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli-quickstart" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLI quickstart
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CLI quickstart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#windows-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows note
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#links" class="md-nav__link">
+    <span class="md-ellipsis">
+      Links
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -433,12 +557,50 @@
 
 
 <h1 id="tamil-utils">tamil-utils</h1>
-<p>Small, production-ready Tamil-first text layer.</p>
+<p>Small, production-ready <strong>Tamil-first</strong> text layer.</p>
 <ul>
 <li>Normalization &amp; graphemes</li>
 <li>Tamil-aware tokens</li>
 <li>Stopwords preset, sentence splitter, numerals</li>
-<li>v0.1 adds: script detection, ISO-15919 transliteration</li>
+<li>Syllables (approx), Tamil collation (ISO-15919 key)</li>
+<li><strong>v0.1</strong> adds: script detection, ISO-15919 transliteration</li>
+<li><strong>v0.3 (alpha)</strong> adds: <strong>JSONL preprocessor</strong>, <strong>spaCy tokenizer hook</strong> (optional), <strong>Hugging Face Datasets</strong> export (optional)</li>
+</ul>
+<hr />
+<h2 id="install">Install</h2>
+<pre><code class="language-bash">pip install tamil-utils
+
+# optional extras
+pip install &quot;tamil-utils[spacy]&quot;   # spaCy tokenizer hook
+pip install datasets               # Hugging Face helper
+</code></pre>
+<hr />
+<h2 id="cli-quickstart">CLI quickstart</h2>
+<pre><code class="language-bash"># sentence split
+python -m tamil_utils.cli sents &quot;இது ஒரு வாக்கியம். இது இரண்டாம்? சரி!&quot;
+
+# Tamil ↔ ASCII numerals
+python -m tamil_utils.cli to-arabic &quot;௨௦௨௫&quot;   # -&gt; 2025
+python -m tamil_utils.cli to-tamil &quot;123&quot;     # -&gt; ௧௨௩
+
+# word/n-gram counts
+python -m tamil_utils.cli freq -n 2 --top 5 &quot;தமிழ் NLP தமிழ் NLP&quot;
+
+# JSONL preprocessor (one record per line)
+python -m tamil_utils.cli preprocess --numerals ar --rmstop &lt; input.txt &gt; out.jsonl
+</code></pre>
+<h3 id="windows-note">Windows note</h3>
+<p>When piping Tamil text in PowerShell, prefer UTF-8 files or run with <code>python -X utf8</code>. See <strong>Preprocess</strong> page for examples.</p>
+<hr />
+<h2 id="links">Links</h2>
+<ul>
+<li><strong>Usage</strong> – examples of the core API &amp; CLI → <a href="usage/"><code>usage.md</code></a></li>
+<li><strong>API</strong> – functions and signatures → <a href="api/"><code>api.md</code></a></li>
+<li><strong>Recipes</strong> – common tasks for apps &amp; data → <a href="recipes/"><code>recipes.md</code></a></li>
+<li><strong>Collation</strong> – how <code>sort_tamil</code> orders words → <a href="collation/"><code>collation.md</code></a></li>
+<li><strong>Preprocess</strong> – JSONL pipeline for RAG/ML → <a href="preprocess/"><code>preprocess.md</code></a></li>
+<li><strong>spaCy</strong> – optional tokenizer hook → <a href="spacy/"><code>spacy.md</code></a></li>
+<li><strong>Hugging Face</strong> – optional dataset helper → <a href="hf/"><code>hf.md</code></a></li>
 </ul>
 
 
@@ -459,6 +621,12 @@
           
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
         
       </main>
       
@@ -488,7 +656,7 @@
     
     
       
-      <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": ".", "features": ["content.code.copy", "navigation.top", "search.highlight"], "search": "assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="assets/javascripts/bundle.f55a23d4.min.js"></script>
