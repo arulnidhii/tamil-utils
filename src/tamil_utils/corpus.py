@@ -20,49 +20,58 @@ from .core import normalize, tokens, sents
 _PUNCT_MAP = str.maketrans({
     "“": '"', "”": '"', "„": '"', "«": '"', "»": '"',
     "‘": "'", "’": "'", "‚": "'", "‹": "'", "›": "'",
-    "…": "...",
+    "…": "...",  # convert Unicode ellipsis to three dots
 })
 
-# commas/periods/etc. where we want "no space before, one space after"
-_AFTER_SPACE = r"[,\.\!\?\:\;]"
-_BEFORE_SPACE = r"[\(\[\{]"     # openers need a space *after*? not always—leave as-is
-_CLOSES = r"[\)\]\}]"
+# Characters that should have:
+# - no space BEFORE them
+# - exactly one space AFTER them (unless EOL), but NOT when followed by punctuation
+_AFTER_CHARS = r",.!?:;"
+_CLOSE_CHARS = r")]}"
 
-# collapse various whitespace to a single space (excluding newlines)
-_WS_RE = re.compile(r"[^\S\r\n]+")
+_WS_RE = re.compile(r"[^\S\r\n]+")  # collapse internal whitespace (preserve newlines)
 
-# spaces before/after punctuation
-_SPACE_BEFORE_PUNCT_RE = re.compile(rf"\s+({_AFTER_SPACE})")
-_SPACE_AFTER_PUNCT_RE = re.compile(rf"({_AFTER_SPACE})(\S)")
+# remove spaces before punctuation and closers
+_SPACE_BEFORE_PUNCT_RE = re.compile(rf"\s+([{_AFTER_CHARS}])")
+_SPACE_BEFORE_CLOSE_RE = re.compile(rf"\s+([{_CLOSE_CHARS}])")
 
-_SPACE_BEFORE_CLOSE_RE = re.compile(rf"\s+({_CLOSES})")
+# add one space after punctuation ONLY if next char is not whitespace and not punctuation
+_SPACE_AFTER_PUNCT_RE = re.compile(rf"([{_AFTER_CHARS}])([^\s{_AFTER_CHARS}])")
 
 
 def normalize_punct(text: str) -> str:
     """
-    Harmonize quotes/ellipsis and tidy common spacing issues around ASCII/Tamil punctuation.
+    Harmonize quotes/ellipsis and tidy common spacing around ASCII/Tamil punctuation.
 
     - Curly quotes/guillemets → straight quotes
-    - Ellipsis (…) → "..."
+    - Ellipsis (…) → "..." and enforced as a token with a space on both sides
     - Collapse internal whitespace
-    - Remove spaces *before* .,!?:; and closers
-    - Ensure a single space *after* .,!?:; (unless EOL)
+    - Remove spaces *before* .,!?:; and closing brackets )]}
+    - Ensure a single space *after* .,!?:; when followed by a non-space, non-punct char
     """
     if not text:
         return text
+
     s = normalize(text).translate(_PUNCT_MAP)
 
-    # collapse internal spaces (leave newlines)
+    # collapse internal spaces (leave newlines intact)
     s = _WS_RE.sub(" ", s)
 
     # no space before .,!?;: and closing brackets
     s = _SPACE_BEFORE_PUNCT_RE.sub(r"\1", s)
     s = _SPACE_BEFORE_CLOSE_RE.sub(r"\1", s)
 
-    # exactly one space after .,!?;: if not end of line
+    # exactly one space after .,!?;: if not followed by whitespace or punctuation
     s = _SPACE_AFTER_PUNCT_RE.sub(r"\1 \2", s)
 
-    # trim ends
+    # --- Ellipsis handling LAST: enforce spaces around '...' without breaking inside ---
+    # (1) collapse any surrounding spaces to exactly one on each side
+    # leading/trailing spaces will be trimmed by final strip
+    s = re.sub(r"\s*\.\.\.\s*", " ... ", s)
+
+    # collapse any accidental double spaces introduced
+    s = re.sub(r"[^\S\r\n]{2,}", " ", s)
+
     return s.strip()
 
 
