@@ -58,6 +58,7 @@ def main():
     s_freq.add_argument("--top", type=int, default=None, help="Return top N items")
     s_freq.add_argument("--rmstop", action="store_true", help="Remove stopwords (only when n=1)")
     s_freq.add_argument("--preset", default="ta", help='Stopwords preset (default: "ta")')
+    s_freq.add_argument("--jsonl", action="store_true", help="Output JSON Lines (one object per line)")
 
     s_syl = sub.add_parser("syllables", help="Approximate Tamil syllable units (grapheme-based)")
     s_syl.add_argument("text", nargs="?", help="Text (defaults to stdin)")
@@ -127,8 +128,12 @@ def main():
         if args.n < 1 or args.n > 5:
             raise SystemExit("n must be in 1..5")
         pairs = word_counts(txt, rmstop=args.rmstop, preset=args.preset, n=args.n, top=args.top)
-        # output as list of [item, count]
-        print(json.dumps([[k, v] for k, v in pairs], ensure_ascii=False))
+        if args.jsonl:
+            for k, v in pairs:
+                print(json.dumps({"item": k, "count": v}, ensure_ascii=False))
+        else:
+            # output as list of [item, count]
+            print(json.dumps([[k, v] for k, v in pairs], ensure_ascii=False))
     elif args.cmd == "syllables":
         print(json.dumps(syllables(_read_text(args.text)), ensure_ascii=False))
     elif args.cmd == "sort":
@@ -137,3 +142,6 @@ def main():
         else:
             words = [w.strip() for w in sys.stdin.read().splitlines() if w.strip()]
         print(json.dumps(sort_tamil(words), ensure_ascii=False))
+
+if __name__ == "__main__":
+    main()
