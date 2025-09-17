@@ -11,4 +11,5 @@ nav:
   - Collation: collation.md
   - Preprocess: preprocess.md
   - SpaCy: spacy.md
+  - Hugging Face: hf.md
 
