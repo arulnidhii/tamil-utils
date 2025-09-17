@@ -9,10 +9,8 @@
       
       
       
-        <link rel="prev" href="../recipes/">
+        <link rel="prev" href="../spacy/">
       
-      
-        <link rel="next" href="../preprocess/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +18,7 @@
     
     
       
-        <title>Collation - tamil-utils</title>
+        <title>Hugging Face - tamil-utils</title>
       
     
     
@@ -62,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#collation-sorting-for-tamil" class="md-skip">
+        <a href="#hugging-face-datasets-optional" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Collation
+              Hugging Face
             
           </span>
         </div>
@@ -303,32 +301,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Collation
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../collation/" class="md-nav__link">
         
   
   
@@ -339,35 +315,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#quick-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      Quick usage
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -420,10 +367,32 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../hf/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Hugging Face
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -434,6 +403,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#from-python-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      From Python records
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-a-jsonl-preprocess-stream" class="md-nav__link">
+    <span class="md-ellipsis">
+      From a JSONL preprocess stream
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="From a JSONL preprocess stream">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tips
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -465,11 +487,35 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#quick-usage" class="md-nav__link">
+  <a href="#from-python-records" class="md-nav__link">
     <span class="md-ellipsis">
-      Quick usage
+      From Python records
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-a-jsonl-preprocess-stream" class="md-nav__link">
+    <span class="md-ellipsis">
+      From a JSONL preprocess stream
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="From a JSONL preprocess stream">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tips
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -492,51 +538,51 @@
   
 
 
-<h1 id="collation-sorting-for-tamil">Collation (Sorting) for Tamil</h1>
-<p><code>tamil-utils</code> provides a lightweight collation via <code>sort_tamil()</code>.<br />
-It builds a stable sort key from ISO-15919 transliteration so words sort <em>roughly</em> as native Tamil order:</p>
-<p>a &lt; ā &lt; i &lt; ī &lt; u &lt; ū &lt; e &lt; ē &lt; ai &lt; o &lt; ō &lt; au</p>
-<p>This is <strong>deterministic</strong> and <strong>dependency-free</strong>, suitable for most app and data tasks.<br />
-It is <strong>not</strong> a full Tamil Collation Algorithm (TCA) and does not depend on ICU.</p>
+<h1 id="hugging-face-datasets-optional">Hugging Face Datasets (optional)</h1>
+<p><code>tamil-utils</code> can convert your preprocessed JSONL-like records into a Hugging Face <strong><code>datasets.Dataset</code></strong> and save/reload it for RAG/ML pipelines.</p>
+<blockquote>
+<p>Install when needed:</p>
+<p><code>bash
+pip install datasets</code></p>
+</blockquote>
 <hr />
-<h2 id="quick-usage">Quick usage</h2>
-<pre><code class="language-python">from tamil_utils import sort_tamil
+<h2 id="from-python-records">From Python records</h2>
+<pre><code class="language-python">from tamil_utils.hf_export import to_hf_dataset, save_hf_dataset
 
-words = [&quot;இலங்கை&quot;, &quot;ஆதி&quot;, &quot;அடி&quot;]
-print(sort_tamil(words))   # ['அடி', 'ஆதி', 'இலங்கை']
+records = [
+    {&quot;text&quot;: &quot;இது ஒரு சோதனை 2025&quot;, &quot;tokens&quot;: [&quot;இது&quot;, &quot;ஒரு&quot;, &quot;சோதனை&quot;, &quot;2025&quot;]},
+    {&quot;text&quot;: &quot;தமிழ் NLP&quot;, &quot;tokens&quot;: [&quot;தமிழ்&quot;, &quot;NLP&quot;]},
+]
 
-Yes. That section **is part of `docs/collation.md`** right after “Quick usage”.
+ds = to_hf_dataset(records)     # -&gt; datasets.Dataset
+save_hf_dataset(ds, &quot;out_ds&quot;)   # saves Arrow dataset to disk
 
-Here’s the exact block to paste (properly fenced):
-
-````markdown
-## When you need strict, locale-aware collation
-
-If your product requires exact linguistic collation for Tamil (e.g., official indexes, libraries), use **ICU** where available and fall back to `sort_tamil()`.
-
-### Python (PyICU) with fallback
-
-```python
-def sort_tamil_strict(words):
-    try:
-        from icu import Collator, Locale
-        coll = Collator.createInstance(Locale(&quot;ta_IN&quot;))
-        return sorted(words, key=coll.getSortKey)
-    except Exception:
-        from tamil_utils import sort_tamil
-        return sort_tamil(words)
-
-words = [&quot;இலங்கை&quot;, &quot;ஆதி&quot;, &quot;அடி&quot;]
-print(sort_tamil_strict(words))
-````
-
-&gt; Install: `pip install PyICU` (platform-specific wheels may apply).
-&gt; Keep `tamil-utils` default lightweight; add ICU only if your deployment needs it.
-
+# later:
+import datasets
+reloaded = datasets.load_from_disk(&quot;out_ds&quot;)
+print(len(reloaded), reloaded[0][&quot;text&quot;])
 </code></pre>
-<p>If your markdown preview was showing it mangled, it’s usually because the inner Python block wasn’t fenced correctly—use the triple backticks as above.
-::contentReference[oaicite:0]{index=0}
-```</p>
+<hr />
+<h2 id="from-a-jsonl-preprocess-stream">From a JSONL preprocess stream</h2>
+<p>First, build JSONL with the <code>tamil-utils</code> preprocessor:</p>
+<pre><code class="language-bash">python -m tamil_utils.cli preprocess --numerals ar --rmstop &lt; input.txt &gt; out.jsonl
+</code></pre>
+<p>Then load the JSONL into a Dataset:</p>
+<pre><code class="language-python">import json
+from tamil_utils.hf_export import to_hf_dataset
+
+with open(&quot;out.jsonl&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
+    records = (json.loads(line) for line in f if line.strip())
+
+ds = to_hf_dataset(records)
+print(ds)
+</code></pre>
+<hr />
+<h3 id="tips">Tips</h3>
+<ul>
+<li>Keep only the fields you need for training (e.g., <code>text</code>, <code>tokens</code>) to reduce disk/memory footprint.</li>
+<li>Keys in your JSON/records become <strong>columns</strong> in the resulting <code>datasets.Dataset</code>.</li>
+</ul>
 
 
 
