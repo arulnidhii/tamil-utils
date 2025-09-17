@@ -9,4 +9,5 @@ nav:
   - API: api.md
   - Recipes: recipes.md
   - Collation: collation.md
+  - Preprocess: preprocess.md
 

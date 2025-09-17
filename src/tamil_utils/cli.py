@@ -1,4 +1,4 @@
-import sys, argparse, json
+import sys, argparse, json, io
 from .core import (
     normalize, tokens, remove_stopwords, graphemes,
     sents, to_arabic_numerals, to_tamil_numerals,
@@ -6,6 +6,7 @@ from .core import (
     # v0.2
     ngrams, bigrams, trigrams, word_counts, syllables, sort_tamil
 )
+from .preprocess import preprocess_stream, PreprocessOptions  # v0.3
 
 def main():
     p = argparse.ArgumentParser(prog="tamil-utils", description="Tamil text utilities")
@@ -65,6 +66,17 @@ def main():
 
     s_sort = sub.add_parser("sort", help="Sort words in Tamil order (ISO-15919 key)")
     s_sort.add_argument("words", nargs="*", help="Words to sort; if empty, read newline-separated from stdin")
+
+    # --- v0.3 commands ---
+
+    s_pp = sub.add_parser("preprocess", help="Stream preprocessor (lines → JSONL records)")
+    s_pp.add_argument("--input", "-i", default="-", help="Input file path or '-' for stdin (default: '-')")
+    s_pp.add_argument("--output", "-o", default="-", help="Output file path or '-' for stdout (default: '-')")
+    s_pp.add_argument("--numerals", choices=["ar", "ta"], default=None,
+                      help='Harmonize numerals: "ar" (Tamil→ASCII) or "ta" (ASCII→Tamil)')
+    s_pp.add_argument("--rmstop", action="store_true", help="Also emit tokens_nostop using Tamil preset")
+    s_pp.add_argument("--emit", default=None,
+                      help='Comma-separated subset of fields to emit: text,sents,tokens,tokens_nostop')
 
     args = p.parse_args()
 
@@ -142,6 +154,33 @@ def main():
         else:
             words = [w.strip() for w in sys.stdin.read().splitlines() if w.strip()]
         print(json.dumps(sort_tamil(words), ensure_ascii=False))
+
+    # --- v0.3 dispatch ---
+    elif args.cmd == "preprocess":
+        emit_list = None
+        if args.emit:
+            emit_list = [x.strip() for x in args.emit.split(",") if x.strip()]
+        opts = PreprocessOptions(numerals=args.numerals, rmstop=args.rmstop, emit=emit_list)
+
+        # input handle
+        if args.input == "-" or args.input is None:
+            fin = sys.stdin
+        else:
+            fin = open(args.input, "r", encoding="utf-8")
+
+        # output handle
+        if args.output == "-" or args.output is None:
+            fout = sys.stdout
+        else:
+            fout = open(args.output, "w", encoding="utf-8")
+
+        try:
+            preprocess_stream(fin, fout, opts)
+        finally:
+            if fin is not sys.stdin:
+                fin.close()
+            if fout is not sys.stdout:
+                fout.close()
 
 if __name__ == "__main__":
     main()
