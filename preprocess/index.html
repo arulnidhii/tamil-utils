@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#cli" class="md-skip">
+        <a href="#dataset-preprocessor-jsonl-friendly" class="md-skip">
           Skip to content
         </a>
       
@@ -332,6 +332,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -364,12 +366,32 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-it-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      What it does
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python API
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#cli" class="md-nav__link">
@@ -399,6 +421,15 @@
   <a href="#options" class="md-nav__link">
     <span class="md-ellipsis">
       Options
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Output Schema
     </span>
   </a>
   
@@ -438,12 +469,32 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-it-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      What it does
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python API
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#cli" class="md-nav__link">
@@ -479,6 +530,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#output-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Output Schema
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#when-to-use" class="md-nav__link">
     <span class="md-ellipsis">
       When to use
@@ -506,29 +566,20 @@
   
 
 
-  <h1>Preprocess</h1>
-
-<pre><code class="language-markdown"># Dataset Preprocessor (JSONL-friendly)
-
-The `preprocess` tools help you clean, segment, and tokenize Tamil text in a **stream-friendly** way for RAG/ML pipelines.
-
----
-
-## What it does
-
-- **Normalize** (NFC) and optionally harmonize **numerals**
-- **Sentence split** (`sents`)
-- **Tokenize** (`tokens`)
-- Optional **stopword removal** (`tokens_nostop`, Tamil preset)
-
-You get one **JSON object per input line** → ideal for JSONL.
-
----
-
-## Python API
-
-```python
-from tamil_utils.preprocess import (
+<h1 id="dataset-preprocessor-jsonl-friendly">Dataset Preprocessor (JSONL-friendly)</h1>
+<p>The <code>preprocess</code> tools help you clean, segment, and tokenize Tamil text in a <strong>stream-friendly</strong> way for RAG/ML pipelines.</p>
+<hr />
+<h2 id="what-it-does">What it does</h2>
+<ul>
+<li><strong>Normalize</strong> text to NFC and optionally harmonize <strong>numerals</strong></li>
+<li><strong>Sentence split</strong> (<code>sents</code>)</li>
+<li><strong>Tokenize</strong> (<code>tokens</code>)</li>
+<li>Optional <strong>stopword removal</strong> (<code>tokens_nostop</code>, Tamil preset)</li>
+</ul>
+<p><strong>One JSON object per input line</strong> → ideal for JSONL.</p>
+<hr />
+<h2 id="python-api">Python API</h2>
+<pre><code class="language-python">from tamil_utils.preprocess import (
     PreprocessOptions, preprocess_record, preprocess_lines
 )
 
@@ -543,48 +594,85 @@ print(rec)
 # }
 
 # Stream lines → records
-with open(&quot;input.txt&quot;,&quot;r&quot;,encoding=&quot;utf-8&quot;) as f:
+with open(&quot;input.txt&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
     for r in preprocess_lines(f, opts):
         print(r)
+</code></pre>
+<p><strong>Example record (JSON):</strong></p>
+<pre><code class="language-json">{
+  &quot;text&quot;: &quot;இது ஒரு சோதனை 2025&quot;,
+  &quot;sents&quot;: [&quot;இது ஒரு சோதனை 2025&quot;],
+  &quot;tokens&quot;: [&quot;இது&quot;, &quot;ஒரு&quot;, &quot;சோதனை&quot;, &quot;2025&quot;],
+  &quot;tokens_nostop&quot;: [&quot;சோதனை&quot;, &quot;2025&quot;]
+}
 </code></pre>
 <hr />
 <h2 id="cli">CLI</h2>
 <pre><code class="language-bash"># stdin → stdout (JSONL)
 python -m tamil_utils.cli preprocess --numerals ar --rmstop &lt; input.txt &gt; out.jsonl
 
-# select fields to emit (subset): text,sents,tokens,tokens_nostop
+# Select fields to emit (subset of: text,sents,tokens,tokens_nostop)
 python -m tamil_utils.cli preprocess --emit text,tokens &lt; input.txt &gt; out.jsonl
 </code></pre>
 <h3 id="powershell-note-windows">PowerShell note (Windows)</h3>
-<p>For correct Tamil I/O when <strong>piping</strong>, either use a UTF-8 file:</p>
+<p>When piping Tamil text, prefer a UTF-8 file or use <code>python -X utf8</code>:</p>
 <pre><code class="language-powershell">Set-Content -Path in.txt -Value 'இது ஒரு சோதனை ௨௦௨௫' -Encoding UTF8
 Get-Content -Raw -Encoding UTF8 .\in.txt | python -X utf8 -m tamil_utils.cli preprocess --numerals ar --rmstop
 </code></pre>
-<p>…or run <code>python -X utf8</code> directly when piping.</p>
 <hr />
 <h2 id="options">Options</h2>
 <ul>
 <li>
-<p><code>numerals</code>:</p>
+<p><code>numerals</code></p>
 </li>
 <li>
-<p><code>ar</code> → Tamil digits → ASCII (<code>௨௦௨௫</code> → <code>2025</code>)</p>
+<p><code>ar</code> → Tamil digits → ASCII (e.g., ௨௦௨௫ → 2025)</p>
 </li>
-<li><code>ta</code> → ASCII → Tamil digits (<code>123</code> → <code>௧௨௩</code>)</li>
-<li><code>rmstop</code>: also emit <code>tokens_nostop</code> (Tamil preset)</li>
-<li><code>emit</code>: comma-separated fields to include (<code>text,sents,tokens,tokens_nostop</code>)</li>
+<li><code>ta</code> → ASCII → Tamil digits (e.g., 123 → ௧௨௩)</li>
+<li><code>rmstop</code> – also emit <code>tokens_nostop</code> (Tamil preset)</li>
+<li><code>emit</code> – comma-separated fields to include (<code>text,sents,tokens,tokens_nostop</code>)</li>
 </ul>
+<hr />
+<h2 id="output-schema">Output Schema</h2>
+<p>Each processed record is a JSON object:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>text</code></td>
+<td>string</td>
+<td>Normalized (NFC) text with optional numeral mapping</td>
+</tr>
+<tr>
+<td><code>sents</code></td>
+<td>string[]</td>
+<td>Sentence segments</td>
+</tr>
+<tr>
+<td><code>tokens</code></td>
+<td>string[]</td>
+<td>Word tokens</td>
+</tr>
+<tr>
+<td><code>tokens_nostop</code></td>
+<td>string[] (opt.)</td>
+<td>Tokens with Tamil stopwords removed (if <code>rmstop</code>)</td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2 id="when-to-use">When to use</h2>
 <ul>
-<li>Prepping corpora for <strong>RAG</strong> / <strong>LLM fine-tuning</strong></li>
-<li>Building <strong>JSONL</strong> datasets (one line per record)</li>
-<li>Quick, dependency-free preprocessing in data pipelines</li>
+<li>Preparing corpora for <strong>RAG / LLM fine-tuning</strong></li>
+<li>Building <strong>JSONL datasets</strong> (one line per record)</li>
+<li><strong>Quick, dependency-free</strong> preprocessing in data pipelines</li>
 </ul>
-<pre><code>
-Add this file, then say **next** and I’ll give you the tiny `mkdocs.yml` nav update + commit/deploy steps.
-::contentReference[oaicite:0]{index=0}
-</code></pre>
 
 
 
