@@ -46,7 +46,7 @@ def main():
     s_sc = sub.add_parser("script", help="Detect script of each token")
     s_sc.add_argument("text", nargs="?", help="Text (defaults to stdin)")
 
-    # --- v0.2+ extras already in your tree (freq etc.) ---
+    # --- v0.2+ extras (freq etc.) ---
     s_freq = sub.add_parser("freq", help="N-gram frequency")
     s_freq.add_argument("text", nargs="?", help="Text (defaults to stdin)")
     s_freq.add_argument("-n", type=int, default=1, help="n-gram size (default 1)")
@@ -77,19 +77,28 @@ def main():
     s_cw.add_argument("--k", type=int, default=3, help="window size")
     s_cw.add_argument("--stride", type=int, default=1, help="stride")
 
-    # --- NEW: NER over HF IndicNER ---
+    # --- v0.5: NER over HF IndicNER ---
     s_ner = sub.add_parser("ner", help="Named Entity Recognition (HF: ai4bharat/IndicNER)")
     s_ner.add_argument("text", nargs="?", help="Text (defaults to stdin)")
     s_ner.add_argument("--model", default="ai4bharat/IndicNER", help="HF repo or local path")
     s_ner.add_argument("--device", type=int, default=None, help="-1 for CPU, otherwise CUDA index")
 
-    # --- NEW: light eval harness (Naamapadam) ---
+    # Light eval harness (Naamapadam) ---
     s_eval = sub.add_parser("eval-ner", help="Quick eval on Naamapadam (sampled)")
     s_eval.add_argument("--model", default="ai4bharat/IndicNER", help="HF repo or local path")
     s_eval.add_argument("--split", default="validation", help="HF split (default: validation)")
     s_eval.add_argument("--lang", default="ta", help="language code to sample (default: ta)")
     s_eval.add_argument("--limit", type=int, default=50, help="number of rows (default: 50)")
     s_eval.add_argument("--save-jsonl", default=None, help="save predictions to JSONL path")
+
+    # --- NEW: Tanglish helpers ---
+    s_ttag = sub.add_parser("tanglish-tag", help="Mark Tanglish tokens ⟪…⟫ (debug)")
+    s_ttag.add_argument("text", nargs="?", help="Text (defaults to stdin)")
+
+    s_t2ta = sub.add_parser("tanglish-2ta", help="Transliterate Tanglish → Tamil (optional plugin)")
+    s_t2ta.add_argument("text", nargs="?", help="Text (defaults to stdin)")
+    s_t2ta.add_argument("--plugin", default="aksharamukha",
+                        help='Transliteration plugin (default: "aksharamukha")')
 
     args = p.parse_args()
     text = _read_text_or_stdin(getattr(args, "text", None))
@@ -128,7 +137,7 @@ def main():
         print(json.dumps(token_scripts(tokens(text)), ensure_ascii=False))
 
     elif args.cmd == "freq":
-        from .v02_counts import word_counts  # your existing helper
+        from .v02_counts import word_counts  # resolved at runtime
         out = word_counts(text, rmstop=args.rmstop, n=args.n, top=args.top)
         if args.jsonl:
             for gram, cnt in out:
@@ -180,7 +189,6 @@ def main():
         print(json.dumps(spans, ensure_ascii=False))
 
     elif args.cmd == "eval-ner":
-        # Best-effort, sample-based harness over ai4bharat/naamapadam. :contentReference[oaicite:2]{index=2}
         try:
             from datasets import load_dataset  # type: ignore
         except Exception as e:
@@ -192,8 +200,7 @@ def main():
             print(f"ERROR: transformers not installed or failed to import: {e}", file=sys.stderr)
             sys.exit(2)
 
-        ds = load_dataset("ai4bharat/naamapadam", split=args.split)  # :contentReference[oaicite:3]{index=3}
-        # The dataset covers many Indic languages curated by AI4Bharat; it underpins IndicNER. :contentReference[oaicite:4]{index=4}
+        ds = load_dataset("ai4bharat/naamapadam", split=args.split)
         rows = [r for r in ds if (r.get("lang") or r.get("language") or "").lower().startswith(args.lang.lower())]
         if args.limit:
             rows = rows[: args.limit]
@@ -204,39 +211,30 @@ def main():
             txt = r.get("text") or r.get("sentence") or ""
             spans = tagger.predict_json(txt)
             out = {"text": txt, "pred_spans": spans}
-            # If BIO tags exist, attach for optional downstream eval tooling
             if "tokens" in r and "ner_tags" in r:
                 out["tokens"] = r["tokens"]
                 out["ner_tags"] = r["ner_tags"]
             preds.append(out)
             print(json.dumps(out, ensure_ascii=False))
 
-        # Optional quick metric (best-effort): requires seqeval; builds gold spans if BIO tags exist.
         try:
             import seqeval.metrics as sq  # type: ignore
         except Exception:
             sq = None
 
         if sq and len([1 for r in preds if "tokens" in r and "ner_tags" in r]) >= 1:
-            # Construct label sequences (BIO) and naive predicted BIO from char spans using token offsets.
-            # NOTE: This is intentionally simple and approximate for quick checks.
-            def bio_from_spans(tokens: List[str], spans: List[Dict[str, Any]], text: str) -> List[str]:
-                # Map token char ranges, then mark B-/I- for any predicted span that fully covers that token.
-                bio = ["O"] * len(tokens)
-                # Build naive char offset map for tokens
+            def bio_from_spans(tokens_list: List[str], spans_list: List[Dict[str, Any]], full_text: str) -> List[str]:
+                bio = ["O"] * len(tokens_list)
                 offs = []
                 idx = 0
-                for i, tok in enumerate(tokens):
-                    # find tok in text starting from idx
-                    j = text.find(tok, idx)
+                for i, tok in enumerate(tokens_list):
+                    j = full_text.find(tok, idx)
                     if j < 0:
-                        # fallback: skip alignment
                         offs.append((None, None))
                         continue
                     offs.append((j, j + len(tok)))
                     idx = j + len(tok)
-                # apply spans
-                for sp in spans:
+                for sp in spans_list:
                     s, e, lab = sp.get("start"), sp.get("end"), sp.get("label", "ENT")
                     if not isinstance(s, int) or not isinstance(e, int):
                         continue
@@ -251,11 +249,9 @@ def main():
 
             gold, pred = [], []
             for r in preds:
-                if "tokens" not in r or "ner_tags" not in r:  # skip if gold absent
+                if "tokens" not in r or "ner_tags" not in r:
                     continue
-                g_seq = [r["ner_tags"]] if isinstance(r["ner_tags"][0], str) else [r["ner_tags"]]
-                # r["ner_tags"] may already be BIO strings; some variants store ints → keep as strings
-                g_labels = g_seq[0]
+                g_labels = r["ner_tags"]
                 p_labels = bio_from_spans(r.get("tokens", []), r.get("pred_spans", []), r.get("text", ""))
                 gold.append(g_labels)
                 pred.append(p_labels)
@@ -263,11 +259,28 @@ def main():
             if gold and pred:
                 f1 = sq.f1_score(gold, pred)
                 print(json.dumps({"samples": len(preds), "approx_span_F1": f1}, ensure_ascii=False), file=sys.stderr)
-        # Save JSONL if requested
+
         if args.save_jsonl:
             with open(args.save_jsonl, "w", encoding="utf-8") as w:
                 for o in preds:
                     w.write(json.dumps(o, ensure_ascii=False) + "\n")
+
+    elif args.cmd == "tanglish-tag":
+        try:
+            from .tanglish import tag_tanglish
+        except Exception as e:
+            print(f"ERROR: failed to import tanglish module: {e}", file=sys.stderr)
+            sys.exit(2)
+        print(tag_tanglish(text))
+
+    elif args.cmd == "tanglish-2ta":
+        try:
+            from .tanglish import transliterate_tanglish
+        except Exception as e:
+            print(f"ERROR: failed to import tanglish module: {e}", file=sys.stderr)
+            sys.exit(2)
+        # If optional plugin not installed, function will gracefully fall back.
+        print(transliterate_tanglish(text, plugin=args.plugin))
 
     else:
         p.error(f"Unknown command: {args.cmd}")

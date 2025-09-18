@@ -20,3 +20,4 @@ nav:
   - spaCy: spacy.md
   - Corpus: corpus.md
   - NER: ner.md
+  - Tanglish: tanglish.md
