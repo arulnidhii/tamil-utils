@@ -33,8 +33,10 @@ Issues = "https://github.com/arulnidhii/tamil-utils/issues"
 tamil-utils = "tamil_utils.cli:main"
 
 [project.optional-dependencies]
+docs = ["mkdocs-material>=9.5"]
 spacy = ["spacy>=3.6,<4"]
 hf = ["transformers>=4.41", "datasets>=2.16", "accelerate>=0.30", "torch", "seqeval>=1.2"]
+translit = ["aksharamukha-transliterate>=2.0.0"]
 dev = ["pytest>=7", "pytest-benchmark>=4", "mkdocs>=1.5", "mkdocs-material>=9"]
 
 [tool.setuptools]

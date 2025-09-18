@@ -3,11 +3,28 @@
 Tiny **Tamil-first** text utilities that make Unicode correctness & tokenization *boringly reliable*.
 
 [![PyPI](https://img.shields.io/pypi/v/tamil-utils)](https://pypi.org/project/tamil-utils/)
-[![CI](https://github.com/arulnidhii/tamil-utils/actions/workflows/ci.yml/badge.svg)](https://github.com/arulnidhii/tamil-utils/actions)
+[![CI](https://github.com/arulnidhii/tamil-utils/actions/workflows/ci.yml/badge.svg)](https://github.com/arulnidhii/tamil-utils/actions)[![Docs](https://img.shields.io/badge/docs-mkdocs--material-blue)](https://arulnidhii.github.io/tamil-utils/)
+
 
 ---
 
 ## Features
+
+> **New: Tanglish (Tamil in Latin script)**
+>
+> Detect and (optionally) transliterate *Tanglish* → Tamil.
+>
+> ```bash
+> # tag Tanglish tokens
+> python -m tamil_utils.cli tanglish-tag "enna solra? தமிழ் ok-aa?"
+>
+> # transliterate (requires plugin)
+> pip install aksharamukha-transliterate
+> python -m tamil_utils.cli tanglish-2ta "enna solra idhu sariyaa?"
+> ```
+>
+> See: **[Docs → Tanglish](https://arulnidhii.github.io/tamil-utils/tanglish/)**.
+
 
 * **Core:** `normalize`, `tokens`, `remove_stopwords`, `graphemes`, `sents`, Tamil⇄ASCII **numerals**, **syllables** (approx), **Tamil collation** (ISO-15919 key)
 * **Counts:** `ngrams`, `word_counts` (uni/bi/tri-grams, optional stopwords)
