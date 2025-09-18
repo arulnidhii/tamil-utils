@@ -9,10 +9,8 @@
       
       
       
-        <link rel="prev" href="../preprocess/">
+        <link rel="prev" href="../ner/">
       
-      
-        <link rel="next" href="../spacy/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +18,7 @@
     
     
       
-        <title>Hugging Face - tamil-utils</title>
+        <title>Tanglish - tamil-utils</title>
       
     
     
@@ -62,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#hugging-face-datasets-optional" class="md-skip">
+        <a href="#quick-start-cli" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Hugging Face
+              Tanglish
             
           </span>
         </div>
@@ -347,32 +345,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Hugging Face
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../hf/" class="md-nav__link">
         
   
   
@@ -383,59 +359,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#from-python-records" class="md-nav__link">
-    <span class="md-ellipsis">
-      From Python records
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#from-a-jsonl-preprocess-stream" class="md-nav__link">
-    <span class="md-ellipsis">
-      From a JSONL preprocess stream
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="From a JSONL preprocess stream">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tips" class="md-nav__link">
-    <span class="md-ellipsis">
-      Tips
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -510,10 +433,30 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../tanglish/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Tanglish
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -524,6 +467,144 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick start (CLI)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick start (CLI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detectmark-tanglish-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detect/mark Tanglish tokens
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transliterate-tanglish-tamil-if-plugin-installed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Transliterate Tanglish → Tamil (if plugin installed)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python API
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#heuristics-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Heuristics (detection)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quality-caveats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quality &amp; caveats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recipes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recipes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Recipes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-clean-detect-transliterate-preprocess" class="md-nav__link">
+    <span class="md-ellipsis">
+      1) Clean → detect → transliterate → preprocess
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-branch-by-tag-density-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      2) Branch by tag density (Python)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      See also
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -545,8 +626,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -555,28 +634,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#from-python-records" class="md-nav__link">
+  <a href="#quick-start-cli" class="md-nav__link">
     <span class="md-ellipsis">
-      From Python records
+      Quick start (CLI)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick start (CLI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#detectmark-tanglish-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      Detect/mark Tanglish tokens
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#from-a-jsonl-preprocess-stream" class="md-nav__link">
-    <span class="md-ellipsis">
-      From a JSONL preprocess stream
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="From a JSONL preprocess stream">
-      <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#tips" class="md-nav__link">
+  <a href="#transliterate-tanglish-tamil-if-plugin-installed" class="md-nav__link">
     <span class="md-ellipsis">
-      Tips
+      Transliterate Tanglish → Tamil (if plugin installed)
     </span>
   </a>
   
@@ -584,6 +663,93 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python API
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#heuristics-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Heuristics (detection)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quality-caveats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quality &amp; caveats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recipes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recipes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Recipes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-clean-detect-transliterate-preprocess" class="md-nav__link">
+    <span class="md-ellipsis">
+      1) Clean → detect → transliterate → preprocess
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-branch-by-tag-density-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      2) Branch by tag density (Python)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      See also
+    </span>
+  </a>
   
 </li>
       
@@ -606,51 +772,128 @@
   
 
 
-<h1 id="hugging-face-datasets-optional">Hugging Face Datasets (optional)</h1>
-<p><code>tamil-utils</code> can convert your preprocessed JSONL-like records into a Hugging Face <strong><code>datasets.Dataset</code></strong> and save/reload it for RAG/ML pipelines.</p>
+  <h1>Tanglish</h1>
+
+<pre><code class="language-markdown"># Tanglish (Tamil in Latin script)
+
+Many real-world texts mix Tamil script with **Tamil written in Latin letters** (a.k.a. *Tanglish*):  
+&gt; “enna solra idhu sariyaa? Tamil ok-aa?”
+
+`tamil-utils` provides:
+- **Detection/tagging** of Tanglish tokens (dependency-free)
+- **Optional transliteration** of Tanglish → Tamil (via plugin)
+
+This improves downstream **NER, search, RAG, and analytics** by normalizing noisy inputs.
+
+---
+
+## Install
+
+```bash
+# Core library (no heavy deps)
+pip install tamil-utils
+
+# Optional: enable Tanglish → Tamil transliteration
+pip install aksharamukha-transliterate   # plugin used by tamil-utils
+</code></pre>
 <blockquote>
-<p>Install when needed:</p>
-<p><code>bash
-pip install datasets</code></p>
+<p>If the plugin is missing, transliteration silently falls back to a no-op.
+Detection/tagging works without any extra packages.</p>
 </blockquote>
 <hr />
-<h2 id="from-python-records">From Python records</h2>
-<pre><code class="language-python">from tamil_utils.hf_export import to_hf_dataset, save_hf_dataset
-
-records = [
-    {&quot;text&quot;: &quot;இது ஒரு சோதனை 2025&quot;, &quot;tokens&quot;: [&quot;இது&quot;, &quot;ஒரு&quot;, &quot;சோதனை&quot;, &quot;2025&quot;]},
-    {&quot;text&quot;: &quot;தமிழ் NLP&quot;, &quot;tokens&quot;: [&quot;தமிழ்&quot;, &quot;NLP&quot;]},
-]
-
-ds = to_hf_dataset(records)     # -&gt; datasets.Dataset
-save_hf_dataset(ds, &quot;out_ds&quot;)   # saves Arrow dataset to disk
-
-# later:
-import datasets
-reloaded = datasets.load_from_disk(&quot;out_ds&quot;)
-print(len(reloaded), reloaded[0][&quot;text&quot;])
+<h2 id="quick-start-cli">Quick start (CLI)</h2>
+<h3 id="detectmark-tanglish-tokens">Detect/mark Tanglish tokens</h3>
+<pre><code class="language-bash">python -m tamil_utils.cli tanglish-tag &quot;enna solra? தமிழ் ok-aa?&quot;
+# → ⟪enna⟫ ⟪solra⟫? தமிழ் ⟪ok⟫-⟪aa⟫?
+</code></pre>
+<h3 id="transliterate-tanglish-tamil-if-plugin-installed">Transliterate Tanglish → Tamil (if plugin installed)</h3>
+<pre><code class="language-bash">python -m tamil_utils.cli tanglish-2ta &quot;enna solra idhu sariyaa?&quot;
+# → என்ன சொல்ற இது சரியா?   (best-effort; depends on input style)
+</code></pre>
+<p><strong>Windows UTF-8 tip for pipes</strong></p>
+<pre><code class="language-powershell">chcp 65001 &gt; $null; [Console]::InputEncoding=[Text.Encoding]::UTF8; [Console]::OutputEncoding=[Text.Encoding]::UTF8
+$env:PYTHONIOENCODING=&quot;utf-8&quot;
 </code></pre>
 <hr />
-<h2 id="from-a-jsonl-preprocess-stream">From a JSONL preprocess stream</h2>
-<p>First, build JSONL with the <code>tamil-utils</code> preprocessor:</p>
-<pre><code class="language-bash">python -m tamil_utils.cli preprocess --numerals ar --rmstop &lt; input.txt &gt; out.jsonl
-</code></pre>
-<p>Then load the JSONL into a Dataset:</p>
-<pre><code class="language-python">import json
-from tamil_utils.hf_export import to_hf_dataset
+<h2 id="python-api">Python API</h2>
+<pre><code class="language-python">from tamil_utils.tanglish import detect_tanglish, normalize_tanglish, tanglish_to_tamil
 
-with open(&quot;out.jsonl&quot;, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
-    records = (json.loads(line) for line in f if line.strip())
+txt = &quot;enna solra? தமிழ் ok-aa?&quot;
+tags = detect_tanglish(txt)
+# [(&quot;enna&quot;,&quot;Tanglish&quot;), (&quot; &quot;,&quot;Other&quot;), (&quot;solra&quot;,&quot;Tanglish&quot;), (&quot;?&quot;,&quot;Other&quot;), (&quot; &quot;,&quot;Other&quot;),
+#  (&quot;தமிழ்&quot;,&quot;Tamil&quot;), (&quot; &quot;,&quot;Other&quot;), (&quot;ok&quot;,&quot;Tanglish&quot;), (&quot;-&quot;,&quot;Other&quot;), (&quot;aa&quot;,&quot;Tanglish&quot;), (&quot;?&quot;,&quot;Other&quot;)]
 
-ds = to_hf_dataset(records)
-print(ds)
+# Debug/tag mode (wrap Tanglish tokens with ⟪ ⟫)
+print(normalize_tanglish(txt, mode=&quot;tag&quot;))
+# ⟪enna⟫ ⟪solra⟫? தமிழ் ⟪ok⟫-⟪aa⟫?
+
+# Transliterate Tanglish → Tamil (requires aksharamukha-transliterate)
+print(tanglish_to_tamil(&quot;enna solra idhu sariyaa?&quot;))
 </code></pre>
 <hr />
-<h3 id="tips">Tips</h3>
+<h2 id="modes">Modes</h2>
 <ul>
-<li>Keep only the fields you need for training (e.g., <code>text</code>, <code>tokens</code>) to reduce disk/memory footprint.</li>
-<li>Keys in your JSON/records become <strong>columns</strong> in the resulting <code>datasets.Dataset</code>.</li>
+<li>
+<p><strong><code>mode="tag"</code></strong>: Non-destructive; wraps Tanglish tokens as <code>⟪token⟫</code>.
+  Use for inspection or to branch pipeline logic.</p>
+</li>
+<li>
+<p><strong><code>mode="transliterate"</code></strong>: Converts Tanglish tokens to Tamil using a plugin
+  (default: <strong>Aksharamukha</strong>, if installed). Tokens not recognized or plugin-less inputs are left as-is.</p>
+</li>
 </ul>
+<hr />
+<h2 id="heuristics-detection">Heuristics (detection)</h2>
+<p>A token is marked <strong>Tanglish</strong> if:</p>
+<ul>
+<li>It is <strong>pure Latin</strong> (no Tamil codepoints), <strong>contains a vowel</strong>, and</li>
+<li>Matches <strong>common romanization cues</strong>: <code>aa</code> <code>ee</code> <code>oo</code> <code>uu</code>, <code>zh</code> (ழ), <code>ng</code>, <code>ny</code>, <code>th</code>/<code>dh</code>, <code>ai</code>, <code>au</code>, etc.</li>
+</ul>
+<p>These rules are intentionally conservative and <strong>language-aware</strong> (Tamil vs generic Latin).</p>
+<hr />
+<h2 id="quality-caveats">Quality &amp; caveats</h2>
+<ul>
+<li>Transliteration is <strong>best-effort</strong>. Colloquial spellings vary; perfect 1-1 mapping isn’t guaranteed.</li>
+<li>Acronyms, brand names, or English words in Latin remain <strong>Latin</strong> (not Tanglish) unless they look like Tamil romanization.</li>
+<li>Keep a human review loop for high-stakes pipelines (e.g., legal/government documents).</li>
+</ul>
+<hr />
+<h2 id="recipes">Recipes</h2>
+<h3 id="1-clean-detect-transliterate-preprocess">1) Clean → detect → transliterate → preprocess</h3>
+<pre><code class="language-bash"># Example: sentence windows with normalized Tanglish, then NER
+cat docs.txt \
+| python -m tamil_utils.cli tanglish-2ta \
+| python -m tamil_utils.cli corpus-windows --k 3 --stride 1 \
+| python -m tamil_utils.cli ner --device -1 \
+&gt; windows_ner.jsonl
+</code></pre>
+<h3 id="2-branch-by-tag-density-python">2) Branch by tag density (Python)</h3>
+<pre><code class="language-python">from tamil_utils.tanglish import detect_tanglish, tanglish_to_tamil
+from tamil_utils import preprocess
+
+s = &quot;enna solra? இது ஒரு சோதனை&quot;
+pairs = detect_tanglish(s)
+tanglish_ratio = sum(1 for _, t in pairs if t==&quot;Tanglish&quot;) / max(1, sum(1 for _, t in pairs if _.strip()))
+if tanglish_ratio &gt; 0.2:
+    s = tanglish_to_tamil(s)  # normalize only if heavy Tanglish
+rec = preprocess.preprocess_record(s)
+</code></pre>
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<ul>
+<li><strong>Transliteration didn’t change text</strong> → install plugin:</li>
+</ul>
+<p><code>bash
+  pip install aksharamukha-transliterate</code>
+* <strong>Mixed Tamil+Latin words</strong> may be tagged <code>Other</code> (not transliterated).
+  Consider splitting punctuation and retrying, or rely on <code>preprocess</code> tokens.</p>
+<hr />
+<h2 id="see-also">See also</h2>
+<ul>
+<li><a href="../preprocess/">Preprocess</a> – normalization → sentences → tokens → numerals/stopwords</li>
+<li><a href="../ner/">NER</a> – entity extraction for Tamil (IndicNER wrapper)</li>
+</ul>
+<p>````</p>
 
 
 
