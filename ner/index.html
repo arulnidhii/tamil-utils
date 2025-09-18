@@ -9,10 +9,8 @@
       
       
       
-        <link rel="prev" href="../usage/">
+        <link rel="prev" href="../corpus/">
       
-      
-        <link rel="next" href="../recipes/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +18,7 @@
     
     
       
-        <title>API - tamil-utils</title>
+        <title>NER - tamil-utils</title>
       
     
     
@@ -62,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#core-api" class="md-skip">
+        <a href="#named-entity-recognition-ner" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              API
+              NER
             
           </span>
         </div>
@@ -259,30 +257,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    API
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
         
   
   
@@ -293,99 +271,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#core-api" class="md-nav__link">
-    <span class="md-ellipsis">
-      Core API
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#useful-clis" class="md-nav__link">
-    <span class="md-ellipsis">
-      Useful CLIs
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#preprocess-jsonl" class="md-nav__link">
-    <span class="md-ellipsis">
-      Preprocess (JSONL)
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Preprocess (JSONL)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#windows-powershell" class="md-nav__link">
-    <span class="md-ellipsis">
-      Windows PowerShell
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#optional-integrations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Optional integrations
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Optional integrations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#spacy-tokenizer-hook" class="md-nav__link">
-    <span class="md-ellipsis">
-      spaCy tokenizer hook
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#hugging-face-datasets" class="md-nav__link">
-    <span class="md-ellipsis">
-      Hugging Face Datasets
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -526,10 +411,32 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../ner/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    NER
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -540,6 +447,71 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      CLI
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notes &amp; tips
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#minimal-recipe-ner-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      Minimal recipe: NER → RAG
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -561,6 +533,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -569,77 +543,47 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#core-api" class="md-nav__link">
+  <a href="#installation" class="md-nav__link">
     <span class="md-ellipsis">
-      Core API
+      Installation
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#useful-clis" class="md-nav__link">
+  <a href="#cli" class="md-nav__link">
     <span class="md-ellipsis">
-      Useful CLIs
+      CLI
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#preprocess-jsonl" class="md-nav__link">
+  <a href="#notes-tips" class="md-nav__link">
     <span class="md-ellipsis">
-      Preprocess (JSONL)
+      Notes &amp; tips
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Preprocess (JSONL)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#windows-powershell" class="md-nav__link">
-    <span class="md-ellipsis">
-      Windows PowerShell
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#optional-integrations" class="md-nav__link">
+  <a href="#troubleshooting" class="md-nav__link">
     <span class="md-ellipsis">
-      Optional integrations
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Optional integrations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#spacy-tokenizer-hook" class="md-nav__link">
-    <span class="md-ellipsis">
-      spaCy tokenizer hook
+      Troubleshooting
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#hugging-face-datasets" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#minimal-recipe-ner-rag" class="md-nav__link">
     <span class="md-ellipsis">
-      Hugging Face Datasets
+      Minimal recipe: NER → RAG
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -662,59 +606,100 @@
   
 
 
-  <h1>API</h1>
+<h1 id="named-entity-recognition-ner">Named Entity Recognition (NER)</h1>
+<p><code>tamil-utils</code> includes a thin, Unicode-safe wrapper around a Hugging Face
+token-classification model (defaults to <strong>ai4bharat/IndicNER</strong>) and a tiny
+evaluation harness for quick checks on public datasets.</p>
+<blockquote>
+<p><strong>Why this wrapper?</strong><br />
+You get NFC normalization, simple batch APIs, and consistent JSON outputs without
+touching transformers code. It’s optional—install only if you need NER.</p>
+</blockquote>
+<hr />
+<h2 id="installation">Installation</h2>
+<pre><code class="language-bash"># core library
+pip install tamil-utils
 
-<h2 id="core-api">Core API</h2>
-<pre><code class="language-python">from tamil_utils import (
-    normalize, tokens, remove_stopwords, graphemes, sents,
-    to_arabic_numerals, to_tamil_numerals, syllables, sort_tamil, word_counts
-)
+# add NER extras (requires PyPI wheels for transformers/torch on your platform)
+pip install &quot;tamil-utils[hf]&quot;
+# or explicitly:
+# pip install transformers datasets accelerate torch seqeval
+````
 
-s = &quot;இது ஒரு சோதனை 👩🏽‍💻 ௨௦௨௫&quot;
+---
 
-print(tokens(s))                                # ['இது','ஒரு','சோதனை','👩🏽‍💻','௨௦௨௫']
-print(remove_stopwords(tokens(s), preset=&quot;ta&quot;)) # ['சோதனை','👩🏽‍💻','௨௦௨௫']
-print(graphemes(&quot;👩🏽‍💻&quot;))                       # ['👩🏽‍💻']
-print(sents(&quot;இது ஒன்று. இது இரண்டு? சரி!&quot;))      # ['இது ஒன்று.', 'இது இரண்டு?', 'சரி!']
-print(to_arabic_numerals(&quot;௨௦௨௫&quot;))                 # &quot;2025&quot;
-print(to_tamil_numerals(&quot;123&quot;))                  # &quot;௧௨௩&quot;
-print(syllables(&quot;தமிழ்&quot;))                         # approx syllables
-print(sort_tamil([&quot;இலங்கை&quot;,&quot;ஆதி&quot;,&quot;அடி&quot;]))         # ['அடி','ஆதி','இலங்கை']
+## Python API
+
+```python
+from tamil_utils.ner import NERTagger
+
+tagger = NERTagger()  # defaults to ai4bharat/IndicNER
+spans = tagger.predict_spans(&quot;தமிழ்நாடு அரசு அறிவிப்பு சென்னை இன்று வெளியானது.&quot;)
+for s in spans:
+    print(s.label, s.text, s.start, s.end, f&quot;{s.score:.3f}&quot;)
+
+# Or JSON-ready:
+print(tagger.predict_json(&quot;ராமு TCS நிறுவனத்தில் சென்னை அலுவலகத்தில் உள்ளார்.&quot;))
+</code></pre>
+<p><strong>Batching</strong></p>
+<pre><code class="language-python">texts = [
+    &quot;தமிழ்நாடு அரசு அறிவிப்பு சென்னை இன்று வெளியானது.&quot;,
+    &quot;ராமு TCS நிறுவனத்தில் சென்னை அலுவலகத்தில் உள்ளார்.&quot;,
+]
+batched = tagger.predict_spans_batch(texts)
 </code></pre>
 <hr />
-<h2 id="useful-clis">Useful CLIs</h2>
-<pre><code class="language-bash"># n-gram counts (unigram/bigram/trigram)
-python -m tamil_utils.cli freq -n 2 --top 5 &quot;தமிழ் NLP தமிழ் NLP&quot;
+<h2 id="cli">CLI</h2>
+<pre><code class="language-bash"># Single input (or pipe via stdin)
+python -m tamil_utils.cli ner &quot;தமிழ்நாடு அரசு அறிவிப்பு சென்னை இன்று வெளியானது.&quot;
 
-# Tamil collation via ISO-15919 key
-python -m tamil_utils.cli sort &quot;இலங்கை&quot; &quot;ஆதி&quot; &quot;அடி&quot;
+# Use a different model, or force CPU with --device -1
+python -m tamil_utils.cli ner --model ai4bharat/IndicNER --device -1 &quot;ராமு TCS நிறுவனத்தில் ...&quot;
+
+# Quick evaluation harness (Naamapadam sample; prints JSONL to stdout)
+python -m tamil_utils.cli eval-ner --limit 50 --split validation --lang ta
+# save predictions
+python -m tamil_utils.cli eval-ner --limit 50 --save-jsonl preds.jsonl
+</code></pre>
+<p><strong>Outputs</strong> (example)</p>
+<pre><code class="language-json">[
+  {&quot;label&quot;:&quot;LOC&quot;,&quot;text&quot;:&quot;தமிழ்நாடு&quot;,&quot;start&quot;:0,&quot;end&quot;:9,&quot;score&quot;:0.98},
+  {&quot;label&quot;:&quot;LOC&quot;,&quot;text&quot;:&quot;சென்னை&quot;,&quot;start&quot;:24,&quot;end&quot;:31,&quot;score&quot;:0.97},
+  {&quot;label&quot;:&quot;ORG&quot;,&quot;text&quot;:&quot;TCS&quot;,&quot;start&quot;:6,&quot;end&quot;:9,&quot;score&quot;:0.95}
+]
 </code></pre>
 <hr />
-<h2 id="preprocess-jsonl">Preprocess (JSONL)</h2>
-<pre><code class="language-bash">python -m tamil_utils.cli preprocess --numerals ar --rmstop &lt; input.txt &gt; out.jsonl
-</code></pre>
-<h3 id="windows-powershell">Windows PowerShell</h3>
-<p>Use UTF-8 when piping:</p>
-<pre><code class="language-powershell">Set-Content in.txt -Value 'இது ஒரு சோதனை ௨௦௨௫' -Encoding UTF8
-Get-Content -Raw -Encoding UTF8 .\in.txt | python -X utf8 -m tamil_utils.cli preprocess --numerals ar --rmstop
-</code></pre>
+<h2 id="notes-tips">Notes &amp; tips</h2>
+<ul>
+<li><strong>Models &amp; data</strong>
+  Default model is <strong>ai4bharat/IndicNER</strong> (multilingual Indic NER). The evaluation
+  harness samples from <strong>Naamapadam</strong> (large Indic NER dataset).</li>
+<li><strong>Normalization</strong>
+  The wrapper runs <code>normalize()</code> before inference to avoid Unicode edge-cases.</li>
+<li><strong>Performance</strong>
+  For CPU-only environments, set <code>--device -1</code>. For GPU, pass CUDA index (e.g., <code>--device 0</code>).</li>
+<li><strong>Licensing &amp; usage</strong>
+  Check model/data cards for licenses before shipping to production.</li>
+</ul>
 <hr />
-<h2 id="optional-integrations">Optional integrations</h2>
-<h3 id="spacy-tokenizer-hook">spaCy tokenizer hook</h3>
-<pre><code class="language-python">import spacy
-from tamil_utils.spacy_hook import install_tamil_tokenizer
-
-nlp = spacy.blank(&quot;xx&quot;)
-install_tamil_tokenizer(nlp)
-[t.text for t in nlp(&quot;இது ஒரு சோதனை 2025&quot;)]  # ['இது','ஒரு','சோதனை','2025']
-</code></pre>
-<h3 id="hugging-face-datasets">Hugging Face Datasets</h3>
-<pre><code class="language-python">from tamil_utils.hf_export import to_hf_dataset  # pip install datasets
-
-records = [{&quot;text&quot;: &quot;இது ஒரு சோதனை 2025&quot;,
-            &quot;tokens&quot;: [&quot;இது&quot;,&quot;ஒரு&quot;,&quot;சோதனை&quot;,&quot;2025&quot;]}]
-ds = to_hf_dataset(records)
-print(ds)
+<h2 id="troubleshooting">Troubleshooting</h2>
+<ul>
+<li><code>transformers</code> not found → install extras: <code>pip install "tamil-utils[hf]"</code>.</li>
+<li>Torch/accelerate wheels missing → install a version compatible with your Python/OS/CPU/GPU.</li>
+<li>Slow cold start → first run downloads model weights; reuse the same environment to avoid re-downloads.</li>
+</ul>
+<hr />
+<h2 id="minimal-recipe-ner-rag">Minimal recipe: NER → RAG</h2>
+<ol>
+<li>Preprocess a corpus (normalize, sentence-split),</li>
+<li>Run <code>ner</code> to extract entities per sentence,</li>
+<li>Store <code>{text, entities}</code> in an index (e.g., JSONL → FAISS/Chroma/HF Datasets),</li>
+<li>Use entities as <strong>filters</strong> or <strong>boosts</strong> for retrieval.</li>
+</ol>
+<pre><code class="language-bash"># toy example: one document per line; get top entities per sentence window
+python -m tamil_utils.cli corpus-windows --k 3 --stride 1 --file docs.txt \
+| python -m tamil_utils.cli ner --device -1 \
+&gt; windows_ner.jsonl
 </code></pre>
 
 
