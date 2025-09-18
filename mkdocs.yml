@@ -19,3 +19,4 @@ nav:
   - Hugging Face: hf.md
   - spaCy: spacy.md
   - Corpus: corpus.md
+  - NER: ner.md
