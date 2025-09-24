@@ -48,7 +48,3 @@ print(sort_tamil_strict(words))
 > Keep `tamil-utils` default lightweight; add ICU only if your deployment needs it.
 
 ```
-
-If your markdown preview was showing it mangled, it’s usually because the inner Python block wasn’t fenced correctly—use the triple backticks as above.
-::contentReference[oaicite:0]{index=0}
-```
